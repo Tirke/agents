@@ -1,6 +1,15 @@
 # Agents
 
 
+#### How To
+
+
+Pour lancer Jade avec l'agent Pharmacy déjà configuré dans les properties:
+```bash
+mvn -Pjade clean compile exec:java
+``` 
+
+
 #### Pré requis :
 
 * Java 8
