@@ -1,6 +1,6 @@
 package fr.m2.miage.pharma.strategies;
 
-public class BasicStrategy implements Strategy {
+public class LeParfoisMechantStrategy implements Strategy {
 
   @Override
   public void strategy() {
