@@ -13,15 +13,15 @@ public class BuyerAgent extends Agent {
     RegisterService rs = new RegisterService(this, "Buyer");
     this.addBehaviour(rs);
 
-    while (true){
-      try {
-        sendMessage("bonjour", new AID("pharmacy", AID.ISLOCALNAME));
-        sendMessageAgree("bonjour, je suis ok", new AID("pharmacy", AID.ISLOCALNAME));
-        Thread.sleep(3000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
+//    while (true){
+//      try {
+//        sendMessage("bonjour", new AID("pharmacy", AID.ISLOCALNAME));
+//        sendMessageAgree("bonjour, je suis ok", new AID("pharmacy", AID.ISLOCALNAME));
+//        Thread.sleep(3000);
+//      } catch (InterruptedException e) {
+//        e.printStackTrace();
+//      }
+//    }
 
   }
 

@@ -9,11 +9,13 @@ import jade.domain.FIPAException;
 
 public class RegisterService extends OneShotBehaviour {
 
-  private String service;
+  private String name;
+  private String type;
 
-  public RegisterService(Agent a, String service) {
+  public RegisterService(Agent a, String name, String type) {
     super(a);
-    this.service = service;
+    this.name = name;
+    this.type = type;
   }
 
   @Override
@@ -21,8 +23,8 @@ public class RegisterService extends OneShotBehaviour {
     DFAgentDescription dfd = new DFAgentDescription();
     dfd.setName(super.myAgent.getAID());
     ServiceDescription sd = new ServiceDescription();
-    sd.setType(this.service);
-    sd.setName(this.service);
+    sd.setType(this.type);
+    sd.setName(this.name);
     dfd.addServices(sd);
     try {
       DFService.register(super.myAgent, dfd);

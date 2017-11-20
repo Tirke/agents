@@ -9,7 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 // Uniquement si il y a un délai
 
 @Entity
-public class Livraison {
+public class Delais {
 
   @Id
   @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -23,12 +23,9 @@ public class Livraison {
   @OneToOne
   private Maladie maladie;
 
-  private int resteAProduire;
-
-  public Livraison(Vente vente, Date dateLivraison, Maladie maladie, int resteAProduire) {
+  public Delais(Vente vente, Date dateLivraison, Maladie maladie) {
     this.vente = vente;
     this.dateLivraison = dateLivraison;
     this.maladie = maladie;
-    this.resteAProduire = resteAProduire;
   }
 }
