@@ -3,21 +3,22 @@ package fr.m2.miage.pharma.models;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Lot {
 
   @Id
-  String id;
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  private String id;
 
-  float prixInitial;
+  private float prixInitial;
 
-  Date datePeremption;
+  private Date datePeremption;
 
-  Date dateFabrication;
+  private Date dateFabrication;
 
-  int stockInitial;
+  private int stockInitial;
 
-  Maladie maladie;
-
+  private Maladie maladie;
 }
