@@ -5,4 +5,8 @@ import javax.persistence.Entity;
 @Entity
 public class Maladie {
 
+  String maladie;
+
+
+
 }
