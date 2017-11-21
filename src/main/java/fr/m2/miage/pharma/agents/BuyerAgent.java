@@ -2,7 +2,10 @@ package fr.m2.miage.pharma.agents;
 
 import fr.m2.miage.pharma.behaviors.AskerBehavior;
 import fr.m2.miage.pharma.behaviors.RegisterService;
+import fr.m2.miage.pharma.behaviors.SendAgreeBehavior;
+import fr.m2.miage.pharma.behaviors.SendRequestBehavior;
 import jade.core.Agent;
+import jade.core.behaviours.SequentialBehaviour;
 
 public class BuyerAgent extends Agent {
 
@@ -12,6 +15,10 @@ public class BuyerAgent extends Agent {
     RegisterService rs = new RegisterService(this, "Buyer", "");
     this.addBehaviour(rs);
     AskerBehavior ab = new AskerBehavior(this);
-    this.addBehaviour(ab);
+    this.addBehaviour(new SendRequestBehavior(this, 1000));
+    this.addBehaviour(new SendAgreeBehavior(this, 3000));
+
+    SequentialBehaviour sb = new SequentialBehaviour(this);
+    sb.reset();
   }
 }
