@@ -14,7 +14,7 @@ public class SendAgreeBehavior extends TickerBehaviour {
   @Override
   protected void onTick() {
     sendMessage("bonjour, je suis ok", new AID("pharmacy", AID.ISLOCALNAME),
-        ACLMessage.AGREE);
+        ACLMessage.CFP);
   }
 
   private void sendMessage(String msg, AID id, int type) {
