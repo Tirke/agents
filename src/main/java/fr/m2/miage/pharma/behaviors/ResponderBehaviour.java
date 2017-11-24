@@ -2,10 +2,12 @@ package fr.m2.miage.pharma.behaviors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.m2.miage.pharma.Discuss.Proposition;
+import fr.m2.miage.pharma.discuss.Proposition;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResponderBehaviour extends CyclicBehaviour {
 
@@ -25,29 +27,48 @@ public class ResponderBehaviour extends CyclicBehaviour {
         case ACLMessage.REQUEST:
           System.out.println("new request : " + aclMessage.getContent());
           break;
+
+        // Association respond agree
         case ACLMessage.AGREE:
+          System.out.println();
           System.out.println("new agree : " + aclMessage.getContent());
+          System.out.println(aclMessage.getConversationId());
+
           break;
+
+        // Association demands
         case ACLMessage.CFP:
-          System.out.println("new cfp : " + aclMessage.getContent());
 
-          ACLMessage message = aclMessage.createReply();
-          ACLMessage message2 = aclMessage.createReply();
-          message.setPerformative(ACLMessage.PROPOSE);
-          message2.setPerformative(ACLMessage.PROPOSE);
-          Proposition proposition = new Proposition(10, 0, 100);
-          Proposition proposition2 = new Proposition(15, 2, 150);
+          List<ACLMessage> offers = getRespondMessage(aclMessage);
 
-          message.setContent(gson.toJson(proposition));
-          message2.setContent(gson.toJson(proposition2));
-
-          myAgent.send(message);
-          myAgent.send(message2);
-
-          System.out.println("Réponse envoyée : " + message.getPerformative());
+          for (ACLMessage offer : offers) {
+            myAgent.send(offers.get(0));
+          }
 
           break;
       }
     }
+  }
+
+  private List<ACLMessage> getRespondMessage(ACLMessage demand) {
+    List<ACLMessage> offers = new ArrayList<>();
+
+    // Create new messages from demand
+    ACLMessage offerWithoutTime = demand.createReply();
+    ACLMessage offerWithTime = demand.createReply();
+
+    // Set type of respond : propose to propose
+    offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
+    offerWithTime.setPerformative(ACLMessage.PROPOSE);
+    Proposition propositionWithoutTime = new Proposition(10, 0, 100);
+    Proposition propositionWithTime = new Proposition(15, 2, 150);
+
+    offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
+    offerWithTime.setContent(gson.toJson(propositionWithTime));
+
+    offers.add(offerWithoutTime);
+    offers.add(offerWithTime);
+
+    return offers;
   }
 }

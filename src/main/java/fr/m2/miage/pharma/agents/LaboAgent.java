@@ -8,12 +8,11 @@ public class LaboAgent extends Agent {
 
   @Override
   protected void setup() {
-    System.out.println("Bonjour, je suis le vendeur");
     RegisterService rs = new RegisterService(this, "Pharmacy", "labo");
     this.addBehaviour(rs);
+
+    // Behaviour to respond to association
     ResponderBehaviour rb = new ResponderBehaviour(this);
     this.addBehaviour(rb);
-//    Idée de ContractNet maybe pas utile
-//    addBehaviour(new ContractNetResponder());
   }
 }

@@ -1,4 +1,4 @@
-package fr.m2.miage.pharma.Discuss;
+package fr.m2.miage.pharma.discuss;
 
 import java.io.Serializable;
 
