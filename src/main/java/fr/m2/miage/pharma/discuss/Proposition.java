@@ -4,27 +4,27 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Proposition implements Serializable{
-  private float prix;
+  private double prix;
   private Date dateLivraison;
   private int nombre;
-  private float volume;
+  private double volume;
 
-  public Proposition(float prix, Date dateLivraison, int nombre, float volume) {
+  public Proposition(double prix, Date dateLivraison, int nombre, double volume) {
     this.prix = prix;
     this.dateLivraison = dateLivraison;
     this.nombre = nombre;
     this.volume = volume;
   }
 
-  public float getVolume() {
+  public double getVolume() {
     return volume;
   }
 
-  public void setVolume(float volume) {
+  public void setVolume(double volume) {
     this.volume = volume;
   }
 
-  public float getPrix() {
+  public double getPrix() {
     return prix;
   }
 

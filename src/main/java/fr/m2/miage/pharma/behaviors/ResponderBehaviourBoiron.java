@@ -11,13 +11,11 @@ import fr.m2.miage.pharma.models.Vente;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
 
-public class ResponderBehaviourBoiron extends CyclicBehaviour{
+public class ResponderBehaviourBoiron extends CyclicBehaviour {
 
 
   final Gson gson = new GsonBuilder().create();
@@ -40,8 +38,14 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour{
           break;
 
         // Association respond agree
-        case ACLMessage.AGREE:
+        case ACLMessage.ACCEPT_PROPOSAL:
           registerSale(aclMessage);
+          ACLMessage inform = aclMessage.createReply();
+          aclMessage.setPerformative(ACLMessage.INFORM);
+          myAgent.send(inform);
+          break;
+        case ACLMessage.REJECT_PROPOSAL:
+          System.out.println("The proposition done by " + myAgent.getName() + " was refused ...");
           break;
       }
     }
@@ -70,7 +74,6 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour{
   }
 
   private ACLMessage getRespondMessage(ACLMessage demand) {
-    List<ACLMessage> offers = new ArrayList<>();
 
     // Create new messages from demand
     ACLMessage offerWithoutTime = demand.createReply();
@@ -91,11 +94,12 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour{
     session.getTransaction().commit();
     session.close();
 
-    float prix = maladie.getPrixInitial();
-    Proposition propositionWithoutTime = new Proposition(prix, new Date(), request.getNb(), maladie.getVolume());
+    double prix = maladie.getPrixInitial();
+    Proposition propositionWithoutTime = new Proposition(prix, new Date(), request.getNb(),
+        maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), propositionWithoutTime);
-    getDataStore().put(demand.getConversationId()+":maladie", maladie);
+    getDataStore().put(demand.getConversationId() + ":maladie", maladie);
 
     offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
 

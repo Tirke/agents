@@ -30,14 +30,15 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
           break;
 
         // Association respond agree
-        case ACLMessage.AGREE:
+        case ACLMessage.ACCEPT_PROPOSAL:
           System.out.println();
           //TODO register sale
           //TODO adjust stock
           //TODO create lot(s) du futur
           break;
-
-
+        case ACLMessage.REJECT_PROPOSAL:
+          System.out.println("The proposition done by " + myAgent.getName() + " was refused ...");
+          break;
       }
     }
   }
