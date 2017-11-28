@@ -155,6 +155,12 @@ public class Main {
     lot.setStockInitial(350);
     lot.setStockActuel(300);
     lot.setMaladie(maladie);
+    session.save(lot);
+
+    Query query = session.getNamedQuery("getStockFromMaladie");
+    query.setParameter("maladieName", "rotavirus");
+    int stock = ((Long) query.getResultList().get(0)).intValue();
+    System.out.println(stock);
 
     session.getTransaction().commit(); // On commit
     session.close(); // On oublie pas de fermer la session

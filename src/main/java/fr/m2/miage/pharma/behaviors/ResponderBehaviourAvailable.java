@@ -67,7 +67,6 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
         .getNamedQuery("getAllNotEmptyLotFromMaladie")
         .setParameter("maladieName", maladie.getMaladie())
         .getResultList();
-    session.close();
 
     int i = 0;
     while (unitsToRemove > 0 && i < listeLot.size()){
@@ -78,7 +77,11 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
       unitsToRemove -= removeOnThisLot;
       i += 1;
     }
+<<<<<<< HEAD
     session = getSessionFactory().openSession();
+=======
+
+>>>>>>> 6b2161caf49afef04e75bbdd91422e5cdbaaed1b
     session.beginTransaction();
 
     for (Lot lot: listeLot) {
@@ -137,10 +140,11 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
 
     int proposeUnit = Integer.min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
-    double prix = maladie.getPrixInitial()*((float)0.90);
 
-    //TODO date peremption
-    Proposition propositionWithoutTime = new Proposition(prix, new Date(), null, proposeUnit, maladie.getVolume());
+    double prix = maladie.getPrixInitial()*((double)0.90);
+
+    //TODO rendre la date péremption
+    Proposition propositionWithoutTime = new Proposition(prix, new Date(), new Date(), proposeUnit, maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), propositionWithoutTime);
     getDataStore().put(demand.getConversationId()+":maladie", maladie);

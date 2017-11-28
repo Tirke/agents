@@ -68,8 +68,8 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
 
     session.save(vente);
 
-    session.getTransaction().commit(); // On commit
-    session.close(); // On oublie pas de fermer la session
+    session.getTransaction().commit();
+    session.close();
 
   }
 

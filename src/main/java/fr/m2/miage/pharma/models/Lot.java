@@ -27,7 +27,7 @@ import org.hibernate.annotations.GenericGenerator;
     ),
     @NamedQuery(
         name = "getStockFromMaladie",
-        query = "select sum(l.stockActuel) from Lot l where l.maladie = :maladieName"
+        query = "select sum(l.stockActuel) from Lot l where l.maladie.maladie = :maladieName and l.datePeremption >= current_date"
     )
 })
 
