@@ -1,6 +1,6 @@
 import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
 
-import fr.m2.miage.pharma.models.Client;
+import fr.m2.miage.pharma.models.Maladie;
 import org.hibernate.Session;
 
 public class Main {
@@ -11,10 +11,14 @@ public class Main {
     Session session = getSessionFactory().openSession();
     session.beginTransaction(); // Ouvre la tx
 
-    Client client = new Client();
-    client.setName("Arnaud");
 
-    session.save(client); // On utilise save et non persist
+
+    Maladie maladie = new Maladie();
+    maladie.setMaladie("grippe");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+
+    session.save(maladie); // On utilise save pas persist
     session.getTransaction().commit(); // On commit
     session.close(); // On oublie pas de fermer la session
 

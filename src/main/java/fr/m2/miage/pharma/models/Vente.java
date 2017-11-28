@@ -17,12 +17,67 @@ public class Vente {
   String id;
   private Date dateLivraison;
   private Date dateVente;
+  private String agent;
   private int nbUnite;
-  private int prixUnitaire;
+  private float prixUnitaire;
   @ManyToOne
   private Maladie maladie;
-  @ManyToOne
-  private Client client;
+  private String client;
 
 
+  public Date getDateLivraison() {
+    return dateLivraison;
+  }
+
+  public void setDateLivraison(Date dateLivraison) {
+    this.dateLivraison = dateLivraison;
+  }
+
+  public Date getDateVente() {
+    return dateVente;
+  }
+
+  public void setDateVente(Date dateVente) {
+    this.dateVente = dateVente;
+  }
+
+  public String getAgent() {
+    return agent;
+  }
+
+  public void setAgent(String agent) {
+    this.agent = agent;
+  }
+
+  public int getNbUnite() {
+    return nbUnite;
+  }
+
+  public void setNbUnite(int nbUnite) {
+    this.nbUnite = nbUnite;
+  }
+
+  public float getPrixUnitaire() {
+    return prixUnitaire;
+  }
+
+  public void setPrixUnitaire(float prixUnitaire) {
+    this.prixUnitaire = prixUnitaire;
+  }
+
+  public Maladie getMaladie() {
+    return maladie;
+  }
+
+  public void setMaladie(Maladie maladie) {
+    this.maladie = maladie;
+  }
+
+  public String getClient() {
+    return client;
+  }
+
+  public void setClient(String client) {
+    this.client = client;
+  }
 }

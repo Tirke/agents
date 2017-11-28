@@ -52,7 +52,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
     // Set type of respond : propose to propose
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
-    Proposition propositionWithoutTime = new Proposition(10, 0, 100);
+    Proposition propositionWithoutTime = new Proposition(10, 0, 100, 1);
 
     offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
 
