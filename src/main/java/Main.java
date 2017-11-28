@@ -150,10 +150,10 @@ public class Main {
     session.save(maladie);
 
     Lot lot = new Lot();
-    lot.setDatePeremption(new Date());
-    lot.setDateFabrication(new Date());
-    lot.setStockActuel(25);
-    lot.setStockInitial(50);
+    lot.setDateFabrication(new Date(1262304000));
+    lot.setDatePeremption(new Date(1577836800));
+    lot.setStockInitial(350);
+    lot.setStockActuel(300);
     lot.setMaladie(maladie);
     session.save(lot);
 
