@@ -7,13 +7,17 @@ import fr.m2.miage.pharma.discuss.Request;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ResponderBehaviourProduction extends CyclicBehaviour {
+public class ResponderBehaviourBoiron extends CyclicBehaviour{
+
 
   final Gson gson = new GsonBuilder().create();
 
-  public ResponderBehaviourProduction(Agent a) {
-    super(a);
+
+  public ResponderBehaviourBoiron(Agent agent) {
+    super(agent);
   }
 
   @Override
@@ -30,33 +34,29 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
 
         // Association respond agree
         case ACLMessage.AGREE:
-          System.out.println();
           //TODO register sale
-          //TODO adjust stock
-          //TODO create lot(s) du futur
           break;
-
-
       }
     }
   }
 
   private ACLMessage getRespondMessage(ACLMessage demand) {
+    List<ACLMessage> offers = new ArrayList<>();
 
     // Create new messages from demand
-    ACLMessage offerWithTime = demand.createReply();
+    ACLMessage offerWithoutTime = demand.createReply();
 
     Request request = gson.fromJson(demand.getContent(), Request.class);
-    System.out.println(request.getDate());
 
     // Set type of respond : propose to propose
-    offerWithTime.setPerformative(ACLMessage.PROPOSE);
-    //TODO en fonction de la BDD créer la proposition <!> date création lots
-    Proposition propositionWithTime = new Proposition(15, 2, 150);
+    offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
+    int prix = 0; //TODO appel à la BDD
+    Proposition propositionWithoutTime = new Proposition(prix, 0, request.getNb());
 
-    offerWithTime.setContent(gson.toJson(propositionWithTime));
+    offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
 
-    return offerWithTime;
+    return offerWithoutTime;
 
   }
+
 }
