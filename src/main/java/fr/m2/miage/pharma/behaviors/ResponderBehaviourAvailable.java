@@ -58,7 +58,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     // Set type of respond : propose to propose
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
     //TODO calculate price
-    Proposition propositionWithoutTime = new Proposition(10, new Date(), 100, 1);
+    Proposition propositionWithoutTime = new Proposition(10, new Date(), new Date(),100, 1);
 
     offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
 

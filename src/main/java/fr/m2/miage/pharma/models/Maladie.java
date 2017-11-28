@@ -11,6 +11,10 @@ import org.hibernate.annotations.GenericGenerator;
     @NamedQuery(
         name = "getMaladieByName",
         query = "select m from Maladie m where m.maladie = :maladieName"
+    ),
+    @NamedQuery(
+        name = "getAllMaldie",
+        query = "select m from Maladie m"
     )
 })
 

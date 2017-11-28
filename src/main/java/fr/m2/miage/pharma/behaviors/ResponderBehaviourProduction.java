@@ -55,7 +55,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     offerWithTime.setPerformative(ACLMessage.PROPOSE);
     //TODO en fonction de la BDD créer la proposition <!> date création lots
     //Attention, la date est maintenant + delai
-    Proposition propositionWithTime = new Proposition(15, new Date(), 150, 1);
+    Proposition propositionWithTime = new Proposition(15, new Date(), new Date(), 150, 1);
 
     offerWithTime.setContent(gson.toJson(propositionWithTime));
 

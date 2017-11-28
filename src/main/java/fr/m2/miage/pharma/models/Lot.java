@@ -5,8 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import org.hibernate.annotations.GenericGenerator;
-
+@NamedQueries({
+    @NamedQuery(
+        name = "getStockFromMaladie",
+        query = "select sum(l.stockActuel) from Lot l where l.maladie = :maladieName"
+    )
+})
 @Entity
 public class Lot {
 
