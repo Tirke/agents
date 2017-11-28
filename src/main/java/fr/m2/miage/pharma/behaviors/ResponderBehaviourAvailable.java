@@ -41,7 +41,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
           break;
 
         // Association respond agree
-        case ACLMessage.AGREE:
+        case ACLMessage.ACCEPT_PROPOSAL:
           System.out.println("ok");
           if(registerSale(aclMessage)){
             adjustStock(aclMessage);
@@ -49,6 +49,9 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
           } else {
             //TODO envoyer not ok
           }
+          break;
+        case ACLMessage.REJECT_PROPOSAL:
+          System.out.println("The proposition done by " + myAgent.getName() + " was refused ...");
           break;
       }
     }

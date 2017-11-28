@@ -14,12 +14,141 @@ public class Main {
     Session session = getSessionFactory().openSession();
     session.beginTransaction(); // Ouvre la tx
 
-
-
+    //Create Maladies
     Maladie maladie = new Maladie();
+
     maladie.setMaladie("grippe");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
+    maladie.setVolume(0.2);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("sida");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.1);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("bronchite");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.5);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("choléra");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.2);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("coqueluche");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.1);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("diphtérie");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.5);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("encéphalite");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.9);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("fièvre");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.4);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("hépatite A");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.2);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("hépatite B");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.3);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("rage");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.8);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("rubéole");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.2);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("varicelle");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.1);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("variole");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.2);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("tétanos");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.6);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("oreillons");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.5);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("zona");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.1);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("fièvre jaune");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(0.2);
+    session.save(maladie);
+
+    maladie = new Maladie();
+    maladie.setMaladie("rotavirus");
+    maladie.setPrixInitial(5);
+    maladie.setProductionTime(2);
+    maladie.setVolume(1.1);
+    session.save(maladie);
+
     Lot lot = new Lot();
     lot.setDateFabrication(new Date(1262304000));
     lot.setDatePeremption(new Date(1577836800));
@@ -27,8 +156,6 @@ public class Main {
     lot.setStockActuel(300);
     lot.setMaladie(maladie);
 
-    session.save(maladie); // On utilise save pas persist
-    session.save(lot);
     session.getTransaction().commit(); // On commit
     session.close(); // On oublie pas de fermer la session
 

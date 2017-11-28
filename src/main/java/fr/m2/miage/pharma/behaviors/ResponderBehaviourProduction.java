@@ -30,14 +30,15 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
           break;
 
         // Association respond agree
-        case ACLMessage.AGREE:
+        case ACLMessage.ACCEPT_PROPOSAL:
           System.out.println();
           //TODO register sale
           //TODO adjust stock
           //TODO create lot(s) du futur
           break;
-
-
+        case ACLMessage.REJECT_PROPOSAL:
+          System.out.println("The proposition done by " + myAgent.getName() + " was refused ...");
+          break;
       }
     }
   }
@@ -54,7 +55,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     offerWithTime.setPerformative(ACLMessage.PROPOSE);
     //TODO en fonction de la BDD créer la proposition <!> date création lots
     //Attention, la date est maintenant + delai
-    Proposition propositionWithTime = new Proposition(15, new Date(), 150, 1);
+    Proposition propositionWithTime = new Proposition(15, new Date(), new Date(), 150, 1);
 
     offerWithTime.setContent(gson.toJson(propositionWithTime));
 

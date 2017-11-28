@@ -19,7 +19,7 @@ public class Vente {
   private Date dateVente;
   private String agent;
   private int nbUnite;
-  private float prixUnitaire;
+  private double prixUnitaire;
   @ManyToOne
   private Maladie maladie;
   private String client;
@@ -57,11 +57,11 @@ public class Vente {
     this.nbUnite = nbUnite;
   }
 
-  public float getPrixUnitaire() {
+  public double getPrixUnitaire() {
     return prixUnitaire;
   }
 
-  public void setPrixUnitaire(float prixUnitaire) {
+  public void setPrixUnitaire(double prixUnitaire) {
     this.prixUnitaire = prixUnitaire;
   }
 

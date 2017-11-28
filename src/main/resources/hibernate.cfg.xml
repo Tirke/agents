@@ -12,7 +12,7 @@
 
     <property name="connection.pool_size">1</property>
 
-    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.show_sql">false</property>
     <property name="format_sql">true</property>
 
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>

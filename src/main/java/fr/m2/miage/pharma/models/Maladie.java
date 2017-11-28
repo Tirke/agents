@@ -11,6 +11,10 @@ import org.hibernate.annotations.GenericGenerator;
     @NamedQuery(
         name = "getMaladieByName",
         query = "select m from Maladie m where m.maladie = :maladieName"
+    ),
+    @NamedQuery(
+        name = "getAllMaldie",
+        query = "select m from Maladie m"
     )
 })
 
@@ -22,28 +26,13 @@ public class Maladie {
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private String id;
   private int productionTime;
-  private float prixInitial;
+  private double prixInitial;
   private String maladie;
-  private float volume;
+  private double volume;
 
   public Maladie() {
   }
 
-  public float getVolume() {
-    return volume;
-  }
-
-  public void setVolume(float volume) {
-    this.volume = volume;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
 
   public int getProductionTime() {
     return productionTime;
@@ -53,11 +42,11 @@ public class Maladie {
     this.productionTime = productionTime;
   }
 
-  public float getPrixInitial() {
+  public double getPrixInitial() {
     return prixInitial;
   }
 
-  public void setPrixInitial(float prixInitial) {
+  public void setPrixInitial(double prixInitial) {
     this.prixInitial = prixInitial;
   }
 
@@ -67,5 +56,13 @@ public class Maladie {
 
   public void setMaladie(String maladie) {
     this.maladie = maladie;
+  }
+
+  public double getVolume() {
+    return volume;
+  }
+
+  public void setVolume(double volume) {
+    this.volume = volume;
   }
 }
