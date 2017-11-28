@@ -11,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NamedQueries({
     @NamedQuery(
         name = "getStockFromMaladie",
-        query = "select sum(l.stockActuel) from Lot l where l.maladie = :maladieName"
+        query = "select sum(l.stockActuel) from Lot l where l.maladie.maladie = :maladieName and l.datePeremption >= current_date"
     )
 })
 @Entity
@@ -27,4 +27,44 @@ public class Lot {
   private int stockActuel;
   @ManyToOne
   private Maladie maladie;
+
+  public Date getDatePeremption() {
+    return datePeremption;
+  }
+
+  public void setDatePeremption(Date datePeremption) {
+    this.datePeremption = datePeremption;
+  }
+
+  public Date getDateFabrication() {
+    return dateFabrication;
+  }
+
+  public void setDateFabrication(Date dateFabrication) {
+    this.dateFabrication = dateFabrication;
+  }
+
+  public int getStockInitial() {
+    return stockInitial;
+  }
+
+  public void setStockInitial(int stockInitial) {
+    this.stockInitial = stockInitial;
+  }
+
+  public int getStockActuel() {
+    return stockActuel;
+  }
+
+  public void setStockActuel(int stockActuel) {
+    this.stockActuel = stockActuel;
+  }
+
+  public Maladie getMaladie() {
+    return maladie;
+  }
+
+  public void setMaladie(Maladie maladie) {
+    this.maladie = maladie;
+  }
 }

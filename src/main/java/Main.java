@@ -1,6 +1,9 @@
 import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
 
+import fr.m2.miage.pharma.models.Lot;
 import fr.m2.miage.pharma.models.Maladie;
+import java.util.Date;
+import javax.persistence.Query;
 import org.hibernate.Session;
 
 public class Main {
@@ -145,6 +148,19 @@ public class Main {
     maladie.setProductionTime(2);
     maladie.setVolume(1.1);
     session.save(maladie);
+
+    Lot lot = new Lot();
+    lot.setDatePeremption(new Date());
+    lot.setDateFabrication(new Date());
+    lot.setStockActuel(25);
+    lot.setStockInitial(50);
+    lot.setMaladie(maladie);
+    session.save(lot);
+
+    Query query = session.getNamedQuery("getStockFromMaladie");
+    query.setParameter("maladieName", "rotavirus");
+    int stock = ((Long) query.getResultList().get(0)).intValue();
+    System.out.println(stock);
 
     session.getTransaction().commit(); // On commit
     session.close(); // On oublie pas de fermer la session
