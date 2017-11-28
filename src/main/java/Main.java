@@ -21,6 +21,9 @@ public class Main {
     // On peut faire des named queries et tout et tout comme dab.
 
     // A utiliser que si l'application a fini de tourner
+    // C'est assez compliqué dans notre cas vu qu'on utilise pas de Main
+    // L'idéal serait de fermer la sessionFactory dans la méthode onDie
+    // d'un agent qui ne meurt qu'à la fin de l'application.
     getSessionFactory().close();
   }
 }
