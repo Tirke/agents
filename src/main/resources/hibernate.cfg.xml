@@ -4,12 +4,22 @@
   "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url"/>
-    <property name="connection.driver_class"/>
-    <!-- <property name="connection.username"/> -->
-    <!-- <property name="connection.password"/> -->
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.username">postgres</property>
+    <property name="connection.password"></property>
+    <property name="connection.url">jdbc:postgresql://localhost:5432/agents</property>
+
+    <property name="connection.pool_size">1</property>
+
+    <property name="format_sql">true</property>
+    <property name="use_sql_comments">true</property>
+
+    <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 
 
     <property name="hbm2ddl.auto">create</property>
+
+    <mapping class="fr.m2.miage.pharma.models.Client"/>
   </session-factory>
 </hibernate-configuration>

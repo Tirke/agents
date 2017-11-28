@@ -1,3 +1,11 @@
+import fr.m2.miage.pharma.models.Client;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
 public class Main {
 
 //  private static final SessionFactory ourSessionFactory;
@@ -34,4 +42,25 @@ public class Main {
 //      session.close();
 //    }
 //  }
+
+  public static void main(String[] args) {
+    final StandardServiceRegistry registry =
+        new StandardServiceRegistryBuilder()
+            .configure("hibernate.cfg.xml")
+            .build();
+    SessionFactory sessionFactory = new MetadataSources(registry)
+        .buildMetadata()
+        .buildSessionFactory();
+
+    Session session = sessionFactory.openSession();
+    Transaction tx = session.beginTransaction();
+
+    Client client = new Client();
+    client.setName("Arnaud");
+
+    session.persist(client);
+    tx.commit();
+    session.close();
+    sessionFactory.close();
+  }
 }

@@ -3,6 +3,7 @@ package fr.m2.miage.pharma.models;
 
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,7 +12,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class Vente {
 
   @Id
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
   String id;
   private Date dateLivraison;
   private Date dateVente;
@@ -21,4 +23,6 @@ public class Vente {
   private Maladie maladie;
   @ManyToOne
   private Client client;
+
+
 }

@@ -1,6 +1,7 @@
 package fr.m2.miage.pharma.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -8,7 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class Maladie {
 
   @Id
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private String id;
   private int productionTime;
   private float prixInitial;
