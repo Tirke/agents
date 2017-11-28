@@ -10,6 +10,7 @@ public class Maladie {
   @Id
   @GenericGenerator(name = "uuid", strategy = "uuid2")
   private String id;
-
+  private int productionTime;
+  private float prixInitial;
   private String maladie;
 }

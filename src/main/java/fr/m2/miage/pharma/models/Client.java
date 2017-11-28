@@ -5,20 +5,9 @@ import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class ClientRequest {
-
+public class Client {
   @Id
   @GenericGenerator(name = "uuid", strategy = "uuid2")
   private String id;
-
-  // Historique
-  private String client;
-
-  private Maladie maladie;
-
-  private int nbVaccinsVoulus;
-
-  private boolean hasSold;
-
-  private boolean hadStock;
+  private String name;
 }
