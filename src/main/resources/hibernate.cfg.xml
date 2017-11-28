@@ -17,7 +17,6 @@
 
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 
-
     <property name="hbm2ddl.auto">create</property>
 
     <mapping class="fr.m2.miage.pharma.models.Client"/>
