@@ -1,6 +1,9 @@
 import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
 
+import fr.m2.miage.pharma.models.Lot;
 import fr.m2.miage.pharma.models.Maladie;
+import java.util.Date;
+import javax.persistence.Query;
 import org.hibernate.Session;
 
 public class Main {
@@ -17,8 +20,15 @@ public class Main {
     maladie.setMaladie("grippe");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
+    Lot lot = new Lot();
+    lot.setDateFabrication(new Date(1262304000));
+    lot.setDatePeremption(new Date(1577836800));
+    lot.setStockInitial(350);
+    lot.setStockActuel(300);
+    lot.setMaladie(maladie);
 
     session.save(maladie); // On utilise save pas persist
+    session.save(lot);
     session.getTransaction().commit(); // On commit
     session.close(); // On oublie pas de fermer la session
 
