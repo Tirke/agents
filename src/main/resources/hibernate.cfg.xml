@@ -21,5 +21,8 @@
     <property name="hbm2ddl.auto">create</property>
 
     <mapping class="fr.m2.miage.pharma.models.Client"/>
+    <mapping class="fr.m2.miage.pharma.models.Lot"/>
+    <mapping class="fr.m2.miage.pharma.models.Maladie"/>
+    <mapping class="fr.m2.miage.pharma.models.Vente"/>
   </session-factory>
 </hibernate-configuration>
