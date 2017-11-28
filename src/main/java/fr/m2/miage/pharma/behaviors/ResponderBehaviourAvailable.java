@@ -78,7 +78,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
       unitsToRemove -= removeOnThisLot;
       i += 1;
     }
-    Session session = getSessionFactory().openSession();
+    session = getSessionFactory().openSession();
     session.beginTransaction();
 
     for (Lot lot: listeLot) {
@@ -137,9 +137,10 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
 
     int proposeUnit = Integer.min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
-    float prix = maladie.getPrixInitial()*((float)0.90);
+    double prix = maladie.getPrixInitial()*((float)0.90);
 
-    Proposition propositionWithoutTime = new Proposition(prix, new Date(), proposeUnit, maladie.getVolume());
+    //TODO date peremption
+    Proposition propositionWithoutTime = new Proposition(prix, new Date(), null, proposeUnit, maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), propositionWithoutTime);
     getDataStore().put(demand.getConversationId()+":maladie", maladie);
