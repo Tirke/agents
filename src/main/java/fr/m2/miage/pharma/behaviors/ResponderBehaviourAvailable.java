@@ -77,11 +77,8 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
       unitsToRemove -= removeOnThisLot;
       i += 1;
     }
-<<<<<<< HEAD
-    session = getSessionFactory().openSession();
-=======
 
->>>>>>> 6b2161caf49afef04e75bbdd91422e5cdbaaed1b
+    session = getSessionFactory().openSession();
     session.beginTransaction();
 
     for (Lot lot: listeLot) {
