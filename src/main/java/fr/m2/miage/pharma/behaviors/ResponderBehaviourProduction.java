@@ -6,16 +6,13 @@ import fr.m2.miage.pharma.discuss.Proposition;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ResponderBehaviour extends CyclicBehaviour {
+public class ResponderBehaviourProduction extends CyclicBehaviour {
 
   final Gson gson = new GsonBuilder().create();
 
-
-  public ResponderBehaviour(Agent agent) {
-    super(agent);
+  public ResponderBehaviourProduction(Agent a) {
+    super(a);
   }
 
   @Override
@@ -24,51 +21,39 @@ public class ResponderBehaviour extends CyclicBehaviour {
 
     if (aclMessage != null) {
       switch (aclMessage.getPerformative()) {
-        case ACLMessage.REQUEST:
-          System.out.println("new request : " + aclMessage.getContent());
+        // Association demands
+        case ACLMessage.CFP:
+          ACLMessage offer = getRespondMessage(aclMessage);
+          System.out.println("Production : " + offer.getContent());
+          myAgent.send(offer);
           break;
 
         // Association respond agree
         case ACLMessage.AGREE:
           System.out.println();
           System.out.println("new agree : " + aclMessage.getContent());
-          System.out.println(aclMessage.getConversationId());
+          //TODO Begin production and then send
 
           break;
 
-        // Association demands
-        case ACLMessage.CFP:
 
-          List<ACLMessage> offers = getRespondMessage(aclMessage);
-
-          for (ACLMessage offer : offers) {
-            myAgent.send(offers.get(0));
-          }
-
-          break;
       }
     }
   }
 
-  private List<ACLMessage> getRespondMessage(ACLMessage demand) {
-    List<ACLMessage> offers = new ArrayList<>();
+  private ACLMessage getRespondMessage(ACLMessage demand) {
 
     // Create new messages from demand
-    ACLMessage offerWithoutTime = demand.createReply();
     ACLMessage offerWithTime = demand.createReply();
 
     // Set type of respond : propose to propose
-    offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
     offerWithTime.setPerformative(ACLMessage.PROPOSE);
-    Proposition propositionWithoutTime = new Proposition(10, 0, 100);
+    //TODO en fonction de la BDD créer la proposition
     Proposition propositionWithTime = new Proposition(15, 2, 150);
 
-    offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
     offerWithTime.setContent(gson.toJson(propositionWithTime));
 
-    offers.add(offerWithoutTime);
-    offers.add(offerWithTime);
+    return offerWithTime;
 
-    return offers;
   }
 }
