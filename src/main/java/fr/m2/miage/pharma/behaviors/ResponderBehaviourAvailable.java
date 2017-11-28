@@ -8,6 +8,7 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ResponderBehaviourAvailable extends CyclicBehaviour {
@@ -36,6 +37,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
           System.out.println("ok");
           //TODO register sale
           //TODO adjust stock
+
           break;
       }
     }
@@ -52,7 +54,8 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
     // Set type of respond : propose to propose
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
-    Proposition propositionWithoutTime = new Proposition(10, 0, 100, 1);
+    //TODO calculate price
+    Proposition propositionWithoutTime = new Proposition(10, new Date(), 100, 1);
 
     offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
 

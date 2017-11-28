@@ -1,16 +1,17 @@
 package fr.m2.miage.pharma.discuss;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Proposition implements Serializable{
   private float prix;
-  private int delai;
+  private Date dateLivraison;
   private int nombre;
   private float volume;
 
-  public Proposition(float prix, int delai, int nombre, float volume) {
+  public Proposition(float prix, Date dateLivraison, int nombre, float volume) {
     this.prix = prix;
-    this.delai = delai;
+    this.dateLivraison = dateLivraison;
     this.nombre = nombre;
     this.volume = volume;
   }
@@ -27,8 +28,8 @@ public class Proposition implements Serializable{
     return prix;
   }
 
-  public int getDelai() {
-    return delai;
+  public Date getDateLivraison() {
+    return dateLivraison;
   }
 
   public int getNombre() {

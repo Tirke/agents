@@ -7,6 +7,7 @@ import fr.m2.miage.pharma.discuss.Request;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import java.util.Date;
 
 public class ResponderBehaviourProduction extends CyclicBehaviour {
 
@@ -52,7 +53,8 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     // Set type of respond : propose to propose
     offerWithTime.setPerformative(ACLMessage.PROPOSE);
     //TODO en fonction de la BDD créer la proposition <!> date création lots
-    Proposition propositionWithTime = new Proposition(15, 2, 150, 1);
+    //Attention, la date est maintenant + delai
+    Proposition propositionWithTime = new Proposition(15, new Date(), 150, 1);
 
     offerWithTime.setContent(gson.toJson(propositionWithTime));
 

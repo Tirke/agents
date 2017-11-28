@@ -92,7 +92,7 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour{
     session.close();
 
     float prix = maladie.getPrixInitial();
-    Proposition propositionWithoutTime = new Proposition(prix, 0, request.getNb(), maladie.getVolume());
+    Proposition propositionWithoutTime = new Proposition(prix, new Date(), request.getNb(), maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), propositionWithoutTime);
     getDataStore().put(demand.getConversationId()+":maladie", maladie);
