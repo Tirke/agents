@@ -10,10 +10,10 @@ import org.hibernate.annotations.GenericGenerator;
 @NamedQueries({
     @NamedQuery(
         name = "getMaladieByName",
-        query = "select m from Maladie m where m.maladie = :maladieName"
+        query = "select m from Maladie m where m.nom = :maladieName"
     ),
     @NamedQuery(
-        name = "getAllMaldie",
+        name = "getAllMaladie",
         query = "select m from Maladie m"
     )
 })
@@ -27,8 +27,9 @@ public class Maladie {
   private String id;
   private int productionTime;
   private double prixInitial;
-  private String maladie;
+  private String nom;
   private double volume;
+  private int delaiPeremption;
 
   public Maladie() {
   }
@@ -50,12 +51,12 @@ public class Maladie {
     this.prixInitial = prixInitial;
   }
 
-  public String getMaladie() {
-    return maladie;
+  public String getNom() {
+    return nom;
   }
 
-  public void setMaladie(String maladie) {
-    this.maladie = maladie;
+  public void setNom(String maladie) {
+    this.nom = maladie;
   }
 
   public double getVolume() {
@@ -64,5 +65,13 @@ public class Maladie {
 
   public void setVolume(double volume) {
     this.volume = volume;
+  }
+
+  public int getDelaiPeremption() {
+    return delaiPeremption;
+  }
+
+  public void setDelaiPeremption(int delaiPeremption) {
+    this.delaiPeremption = delaiPeremption;
   }
 }

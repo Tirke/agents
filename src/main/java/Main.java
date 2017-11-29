@@ -3,7 +3,6 @@ import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFac
 import fr.m2.miage.pharma.models.Lot;
 import fr.m2.miage.pharma.models.Maladie;
 import java.util.Date;
-import javax.persistence.Query;
 import org.hibernate.Session;
 
 public class Main {
@@ -17,136 +16,155 @@ public class Main {
     //Create Maladies
     Maladie maladie = new Maladie();
 
-    maladie.setMaladie("grippe");
+    maladie.setNom("grippe");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.2);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("sida");
+    maladie.setNom("sida");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.1);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("bronchite");
+    maladie.setNom("bronchite");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.5);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("choléra");
+    maladie.setNom("choléra");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.2);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("coqueluche");
+    maladie.setNom("coqueluche");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.1);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("diphtérie");
+    maladie.setNom("diphtérie");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.5);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("encéphalite");
+    maladie.setNom("encéphalite");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.9);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("fièvre");
+    maladie.setNom("fièvre");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.4);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("hépatite A");
+    maladie.setNom("hépatite A");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.2);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("hépatite B");
+    maladie.setNom("hépatite B");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.3);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("rage");
+    maladie.setNom("rage");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.8);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("rubéole");
+    maladie.setNom("rubéole");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.2);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("varicelle");
+    maladie.setNom("varicelle");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.1);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("variole");
+    maladie.setNom("variole");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.2);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("tétanos");
+    maladie.setNom("tétanos");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.6);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("oreillons");
+    maladie.setNom("oreillons");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.5);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("zona");
+    maladie.setNom("zona");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.1);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("fièvre jaune");
+    maladie.setNom("fièvre jaune");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(0.2);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     maladie = new Maladie();
-    maladie.setMaladie("rotavirus");
+    maladie.setNom("rotavirus");
     maladie.setPrixInitial(5);
     maladie.setProductionTime(2);
     maladie.setVolume(1.1);
+    maladie.setDelaiPeremption(10);
     session.save(maladie);
 
     Lot lot = new Lot();

@@ -12,11 +12,8 @@ import fr.m2.miage.pharma.models.Vente;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import org.hibernate.Session;
 
 public class ResponderBehaviourAvailable extends CyclicBehaviour {
@@ -65,7 +62,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     Session session = getSessionFactory().openSession();
     List<Lot> listeLot = session
         .getNamedQuery("getAllNotEmptyLotFromMaladie")
-        .setParameter("maladieName", maladie.getMaladie())
+        .setParameter("maladieName", maladie.getNom())
         .getResultList();
 
     int i = 0;
@@ -94,7 +91,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
     Maladie maladie = (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie");
     Date datePeremption = (Date) getDataStore().get(aclMessage.getConversationId() + ":datePeremption");
-    int availableUnits = getAvailableUnits(maladie.getMaladie(), datePeremption);
+    int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption);
 
     if (availableUnits >= proposition.getNombre()){
       Vente vente = new Vente();
