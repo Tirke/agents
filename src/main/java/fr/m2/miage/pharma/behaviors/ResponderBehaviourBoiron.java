@@ -1,6 +1,8 @@
 package fr.m2.miage.pharma.behaviors;
 
+import static fr.m2.miage.pharma.services.DatabaseService.saveVente;
 import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
+import static fr.m2.miage.pharma.services.DatabaseService.getMaladieByName;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,24 +54,10 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
   }
 
   private void registerSale(ACLMessage aclMessage) {
-
     Proposition proposition = (Proposition) getDataStore().get(aclMessage.getConversationId());
-    Vente vente = new Vente();
-    vente.setAgent(myAgent.getName());
-    vente.setClient(aclMessage.getSender().getName());
-    vente.setDateLivraison(new Date());
-    vente.setDateVente(new Date());
-    vente.setNbUnite(proposition.getNombre());
-    vente.setPrixUnitaire(proposition.getPrix());
-    vente.setMaladie((Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie"));
-
-    Session session = getSessionFactory().openSession();
-    session.beginTransaction();
-
-    session.save(vente);
-
-    session.getTransaction().commit();
-    session.close();
+    saveVente(myAgent.getName(), aclMessage.getSender().getName(), new Date(), new Date(),
+        proposition.getNombre(), proposition.getPrix(),
+        (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie"));
 
   }
 
@@ -83,16 +71,7 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
     // Set type of respond : propose to propose
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
 
-    Session session = getSessionFactory().openSession();
-    session.beginTransaction();
-
-    Query query = session.getNamedQuery("getMaladieByName");
-    query.setParameter("maladieName", request.getMaladie());
-
-    Maladie maladie = (Maladie) query.getResultList().get(0);
-
-    session.getTransaction().commit();
-    session.close();
+    Maladie maladie = getMaladieByName(request.getMaladie());
 
     double prix = maladie.getPrixInitial();
     Date today = new Date();
