@@ -78,6 +78,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
       i += 1;
     }
 
+    session = getSessionFactory().openSession();
     session.beginTransaction();
 
     for (Lot lot: listeLot) {
@@ -136,10 +137,10 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
 
     int proposeUnit = Integer.min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
+
     double prix = maladie.getPrixInitial()*((double)0.90);
 
-
-    //TODO rendre la da te péremption
+    //TODO rendre la date péremption
     Proposition propositionWithoutTime = new Proposition(prix, new Date(), new Date(), proposeUnit, maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), propositionWithoutTime);
