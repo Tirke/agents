@@ -28,6 +28,13 @@ import org.hibernate.annotations.GenericGenerator;
     @NamedQuery(
         name = "getStockFromMaladie",
         query = "select sum(l.stockActuel) from Lot l where l.maladie.maladie = :maladieName and l.datePeremption >= current_date"
+    ),
+    @NamedQuery(
+        name = "getMinPeremptionForMaladie",
+        query = "select min(l.datePeremption) from Lot l where "
+            + "l.maladie.maladie = :maladieName and "
+            + "l.datePeremption > :datePeremption and "
+            + "l.dateFabrication < current_date()"
     )
 })
 

@@ -42,12 +42,15 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
         // Association respond agree
         case ACLMessage.ACCEPT_PROPOSAL:
-          System.out.println("ok");
           if(registerSale(aclMessage)){
             adjustStock(aclMessage);
-            //TODO envoyer is ok
+            ACLMessage reponseValidation = aclMessage.createReply();
+            reponseValidation.setPerformative(ACLMessage.INFORM);
+            myAgent.send(reponseValidation);
           } else {
-            //TODO envoyer not ok
+            ACLMessage reponseValidation = aclMessage.createReply();
+            reponseValidation.setPerformative(ACLMessage.FAILURE);
+            myAgent.send(reponseValidation);
           }
           break;
         case ACLMessage.REJECT_PROPOSAL:
@@ -137,11 +140,10 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
 
     int proposeUnit = Integer.min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
+    Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate());
+    double prix = maladie.getPrixInitial()*0.90;
 
-    double prix = maladie.getPrixInitial()*((double)0.90);
-
-    //TODO rendre la date péremption
-    Proposition propositionWithoutTime = new Proposition(prix, new Date(), new Date(), proposeUnit, maladie.getVolume());
+    Proposition propositionWithoutTime = new Proposition(prix, new Date(), datePeremption, proposeUnit, maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), propositionWithoutTime);
     getDataStore().put(demand.getConversationId()+":maladie", maladie);
@@ -152,10 +154,21 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     return offerWithoutTime;
   }
 
+  private Date getMinDatePremption(String maladieName, Date peremption){
+    Session session = getSessionFactory().openSession();
+    Date minPeremption = (Date) session
+        .getNamedQuery("getMinPeremptionForMaladie")
+        .setParameter("maladieName", maladieName)
+        .setParameter("datePeremption", peremption)
+        .getSingleResult();
+    session.close();
+    return minPeremption;
+  }
+
   private int getAvailableUnits(String maladieName, Date peremption){
     Session session = getSessionFactory().openSession();
     int availableUnits;
-    //Overflow is possible
+    //int overflow is possible
     try {
       availableUnits = (int) (long) session
           .getNamedQuery("getStock")

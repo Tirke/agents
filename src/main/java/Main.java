@@ -3,6 +3,7 @@ import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFac
 import fr.m2.miage.pharma.models.Lot;
 import fr.m2.miage.pharma.models.Maladie;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
 
