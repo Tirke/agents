@@ -140,6 +140,9 @@ public class DatabaseService {
       futureLot.setDateFabrication(fabrication);
       session.save(futureLot);
       session.getTransaction().commit();
+      System.out.println("Création de " +
+          stockToSet + " vaccins pour " +
+          maladie.getNom());
     }
     session.close();
   }
