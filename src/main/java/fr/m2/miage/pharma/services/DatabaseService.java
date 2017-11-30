@@ -114,12 +114,12 @@ public class DatabaseService {
     Random randomizer = new Random();
     Maladie maladie = maladies.get(randomizer.nextInt(maladies.size()));
 
-    Integer result = session
-        .createNamedQuery("getStockNoDate", Integer.class)
+    Long getResult = session
+        .createNamedQuery("getStockNoDate", Long.class)
         .setParameter("maladieName", maladie.getNom())
         .getResultList().get(0);
 
-    int stock = (result == null) ? 0 : result;
+    Integer stock = (getResult == null) ? 0 : Math.toIntExact(getResult);
 
     if (stock <= 20) {
       // On met au hasard le nombre de vaccin à créer
@@ -128,6 +128,7 @@ public class DatabaseService {
       Date fabrication = new Date(
           Instant.now().toEpochMilli() + maladie.getProductionTime() * stockToSet);
 
+      session.beginTransaction();
       Lot futureLot = new Lot();
       futureLot.setStockActuel(stockToSet);
       futureLot.setStockInitial(stockToSet);
@@ -135,7 +136,7 @@ public class DatabaseService {
       futureLot.setDatePeremption(permeption);
       futureLot.setDateFabrication(fabrication);
       session.save(futureLot);
-
+      session.getTransaction().commit();
     }
     session.close();
   }
