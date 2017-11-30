@@ -21,7 +21,7 @@ public class LaboAgentProduction extends Agent {
     ResponderBehaviourProduction rb = new ResponderBehaviourProduction(this);
     this.addBehaviour(rb);
 
-    ProductionBehaviour pb = new ProductionBehaviour(this, 50000);
+    ProductionBehaviour pb = new ProductionBehaviour(this, 1000);
     this.addBehaviour(pb);
   }
 

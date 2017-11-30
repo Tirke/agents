@@ -128,9 +128,10 @@ public class DatabaseService {
     if (stock <= 20) {
       // On met au hasard le nombre de vaccin à créer
       int stockToSet = randomizer.nextInt(50) + 50;
-      Date permeption = new Date(Instant.now().toEpochMilli() + maladie.getDelaiPeremption());
+
       Date fabrication = new Date(
           Instant.now().toEpochMilli() + maladie.getProductionTime() * stockToSet);
+      Date permeption = new Date(fabrication.getTime() + maladie.getDelaiPeremption());
 
       session.beginTransaction();
       Lot futureLot = new Lot();
