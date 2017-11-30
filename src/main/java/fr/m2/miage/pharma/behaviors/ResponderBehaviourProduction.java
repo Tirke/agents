@@ -20,9 +20,12 @@ import jade.lang.acl.ACLMessage;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResponderBehaviourProduction extends CyclicBehaviour {
 
+  private final Logger logger = LoggerFactory.getLogger(ResponderBehaviourBoiron.class);
   private final Gson gson = new GsonBuilder().create();
 
   public ResponderBehaviourProduction(Agent a) {
@@ -38,13 +41,14 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
+          logger.info("Sending offer");
           myAgent.send(offer);
           break;
 
         case ACLMessage.ACCEPT_PROPOSAL:
-          System.out.println("The proposition done by " + myAgent.getName() + " was accepted :D");
+          logger.info("The proposition done by " + myAgent.getName() + " was accepted :D");
 
-          if(registerSale(aclMessage)){
+          if (registerSale(aclMessage)) {
             adjustStock(aclMessage);
             createFutureLot(aclMessage);
             ACLMessage reponseValidation = aclMessage.createReply();
@@ -58,7 +62,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
           break;
 
         case ACLMessage.REJECT_PROPOSAL:
-          System.out.println("The proposition done by " + myAgent.getName() + " was refused ...");
+          logger.info("The proposition done by " + myAgent.getName() + " was refused ...");
           break;
       }
     }
@@ -67,7 +71,8 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
   private void createFutureLot(ACLMessage aclMessage) {
     Proposition proposition = (Proposition) getDataStore().get(aclMessage.getConversationId());
     Maladie maladie = (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie");
-    int prodcutionPrevue = (int) getDataStore().get(aclMessage.getConversationId()+":productionPrevue");
+    int prodcutionPrevue = (int) getDataStore()
+        .get(aclMessage.getConversationId() + ":productionPrevue");
 
     Lot futureLot = new Lot();
     futureLot.setStockActuel(0);
@@ -87,7 +92,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     List<Lot> listeLot = getAllNotEmptyLotFromMaladie(maladie.getNom());
 
     int i = 0;
-    while (unitsToRemove > 0 && i < listeLot.size()){
+    while (unitsToRemove > 0 && i < listeLot.size()) {
 
       int removeOnThisLot = Integer.min(unitsToRemove, listeLot.get(i).getStockActuel());
       listeLot.get(i).setStockActuel(listeLot.get(i).getStockActuel() - removeOnThisLot);
@@ -104,11 +109,13 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     Proposition proposition = (Proposition) getDataStore().get(aclMessage.getConversationId());
 
     Maladie maladie = (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie");
-    Date datePeremption = (Date) getDataStore().get(aclMessage.getConversationId() + ":datePeremption");
-    int productionPrevue = (int) getDataStore().get(aclMessage.getConversationId()+":productionPrevue");
+    Date datePeremption = (Date) getDataStore()
+        .get(aclMessage.getConversationId() + ":datePeremption");
+    int productionPrevue = (int) getDataStore()
+        .get(aclMessage.getConversationId() + ":productionPrevue");
     int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption);
 
-    if (availableUnits + productionPrevue >= proposition.getNombre()){
+    if (availableUnits + productionPrevue >= proposition.getNombre()) {
       saveVente(myAgent.getName(), aclMessage.getSender().getName(), proposition.getDateLivraison(),
           new Date(), proposition.getNombre(), proposition.getPrix(), maladie);
       return true;
@@ -127,28 +134,34 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     int availableUnits = getAvailableUnits(maladie.getNom(), request.getDate());
 
     // Price and Delevery date if we have enough units
-    double prix = maladie.getPrixInitial()*0.9;
+    double prix = maladie.getPrixInitial() * 0.9;
     Date dateLivraison = new Date();
 
     // If we don't, some math
-    if(availableUnits < request.getNb()){
-      prix = maladie.getPrixInitial()*0.85;
-      dateLivraison = new Date(Instant.now().toEpochMilli() + maladie.getProductionTime()*(request.getNb() - availableUnits));
+    if (availableUnits < request.getNb()) {
+      prix = maladie.getPrixInitial() * 0.85;
+      dateLivraison = new Date(
+          Instant.now().toEpochMilli() + maladie.getProductionTime() * (request.getNb()
+              - availableUnits));
     }
 
     Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate());
     // This date may be null if there is no units available in database
     // Which means we have to calculate this date
-    if(datePeremption == null){datePeremption = new Date(dateLivraison.getTime() + maladie.getDelaiPeremption());}
+    if (datePeremption == null) {
+      datePeremption = new Date(dateLivraison.getTime() + maladie.getDelaiPeremption());
+    }
 
-    Proposition propositionWithTime = new Proposition(prix, dateLivraison, datePeremption, request.getNb(), maladie.getVolume());
+    Proposition propositionWithTime = new Proposition(prix, dateLivraison, datePeremption,
+        request.getNb(), maladie.getVolume());
 
     offerWithTime.setContent(gson.toJson(propositionWithTime));
 
     getDataStore().put(demand.getConversationId(), propositionWithTime);
-    getDataStore().put(demand.getConversationId()+":maladie", maladie);
-    getDataStore().put(demand.getConversationId()+":datePeremption", request.getDate());
-    getDataStore().put(demand.getConversationId()+":productionPrevue", request.getNb() - availableUnits);
+    getDataStore().put(demand.getConversationId() + ":maladie", maladie);
+    getDataStore().put(demand.getConversationId() + ":datePeremption", request.getDate());
+    getDataStore()
+        .put(demand.getConversationId() + ":productionPrevue", request.getNb() - availableUnits);
 
     return offerWithTime;
   }

@@ -18,9 +18,12 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.Date;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
+  private final Logger logger = LoggerFactory.getLogger(ResponderBehaviourAvailable.class);
   private final Gson gson = new GsonBuilder().create();
 
 
@@ -37,14 +40,15 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
+          logger.info("Sending offer");
           myAgent.send(offer);
           break;
 
         // Association respond agree
         case ACLMessage.ACCEPT_PROPOSAL:
-          System.out.println("The proposition done by " + myAgent.getName() + " was accepted :D");
+          logger.info("The proposition done by " + myAgent.getName() + " was accepted :D");
 
-          if(registerSale(aclMessage)){
+          if (registerSale(aclMessage)) {
             adjustStock(aclMessage);
             ACLMessage reponseValidation = aclMessage.createReply();
             reponseValidation.setPerformative(ACLMessage.INFORM);
@@ -57,7 +61,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
           break;
 
         case ACLMessage.REJECT_PROPOSAL:
-          System.out.println("The proposition done by " + myAgent.getName() + " was refused ...");
+          logger.info("The proposition done by " + myAgent.getName() + " was refused ...");
           break;
       }
     }
@@ -71,7 +75,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     List<Lot> listeLot = getAllNotEmptyLotFromMaladie(maladie.getNom());
 
     int i = 0;
-    while (unitsToRemove > 0 && i < listeLot.size()){
+    while (unitsToRemove > 0 && i < listeLot.size()) {
 
       int removeOnThisLot = Integer.min(unitsToRemove, listeLot.get(i).getStockActuel());
       listeLot.get(i).setStockActuel(listeLot.get(i).getStockActuel() - removeOnThisLot);
@@ -87,10 +91,11 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     Proposition proposition = (Proposition) getDataStore().get(aclMessage.getConversationId());
 
     Maladie maladie = (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie");
-    Date datePeremption = (Date) getDataStore().get(aclMessage.getConversationId() + ":datePeremption");
+    Date datePeremption = (Date) getDataStore()
+        .get(aclMessage.getConversationId() + ":datePeremption");
     int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption);
 
-    if (availableUnits >= proposition.getNombre()){
+    if (availableUnits >= proposition.getNombre()) {
       saveVente(myAgent.getName(), aclMessage.getSender().getName(), proposition.getDateLivraison(),
           new Date(), proposition.getNombre(), proposition.getPrix(), maladie);
       return true;
@@ -106,15 +111,17 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     ACLMessage offerWithoutTime = demand.createReply();
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
 
-    int proposeUnit = Integer.min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
+    int proposeUnit = Integer
+        .min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
     Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate());
-    double prix = maladie.getPrixInitial()*0.90;
+    double prix = maladie.getPrixInitial() * 0.90;
 
-    Proposition propositionWithoutTime = new Proposition(prix, new Date(), datePeremption, proposeUnit, maladie.getVolume());
+    Proposition propositionWithoutTime = new Proposition(prix, new Date(), datePeremption,
+        proposeUnit, maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), propositionWithoutTime);
-    getDataStore().put(demand.getConversationId()+":maladie", maladie);
-    getDataStore().put(demand.getConversationId()+":datePeremption", request.getDate());
+    getDataStore().put(demand.getConversationId() + ":maladie", maladie);
+    getDataStore().put(demand.getConversationId() + ":datePeremption", request.getDate());
 
     offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
 

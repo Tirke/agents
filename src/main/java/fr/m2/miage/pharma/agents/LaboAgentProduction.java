@@ -6,9 +6,12 @@ import fr.m2.miage.pharma.behaviors.ProductionBehaviour;
 import fr.m2.miage.pharma.behaviors.RegisterService;
 import fr.m2.miage.pharma.behaviors.ResponderBehaviourProduction;
 import jade.core.Agent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LaboAgentProduction extends Agent {
 
+  private final Logger logger = LoggerFactory.getLogger(LaboAgentProduction.class);
 
   @Override
   protected void setup() {
@@ -25,6 +28,7 @@ public class LaboAgentProduction extends Agent {
 
   @Override
   protected void takeDown() {
+    logger.info("Taking down " + this.getName() + " gracefully");
     getSessionFactory().close();
   }
 }

@@ -1,10 +1,16 @@
 package fr.m2.miage.pharma.agents;
 
+import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
+
 import fr.m2.miage.pharma.behaviors.RegisterService;
 import fr.m2.miage.pharma.behaviors.ResponderBehaviourAvailable;
 import jade.core.Agent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LaboAgentAvailable extends Agent {
+
+  private final Logger logger = LoggerFactory.getLogger(LaboAgentAvailable.class);
 
   @Override
   protected void setup() {
@@ -14,5 +20,11 @@ public class LaboAgentAvailable extends Agent {
     // Behaviour to respond to association
     ResponderBehaviourAvailable rb = new ResponderBehaviourAvailable(this);
     this.addBehaviour(rb);
+  }
+
+  @Override
+  protected void takeDown() {
+    logger.info("Taking down " + this.getName() + " gracefully");
+    getSessionFactory().close();
   }
 }

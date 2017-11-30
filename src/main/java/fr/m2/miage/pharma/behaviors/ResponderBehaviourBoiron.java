@@ -12,10 +12,12 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResponderBehaviourBoiron extends CyclicBehaviour {
 
-
+  private final Logger logger = LoggerFactory.getLogger(ResponderBehaviourBoiron.class);
   private final Gson gson = new GsonBuilder().create();
 
 
@@ -32,12 +34,13 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
+          logger.info("Sending offer");
           myAgent.send(offer);
           break;
 
         // Association respond agree
         case ACLMessage.ACCEPT_PROPOSAL:
-          System.out.println("The proposition done by " + myAgent.getName() + " was accepted :D");
+          logger.info("The proposition done by " + myAgent.getName() + " was accepted :D");
 
           registerSale(aclMessage);
           ACLMessage inform = aclMessage.createReply();
@@ -45,7 +48,7 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
           myAgent.send(inform);
           break;
         case ACLMessage.REJECT_PROPOSAL:
-          System.out.println("The proposition done by " + myAgent.getName() + " was refused ...");
+          logger.info("The proposition done by " + myAgent.getName() + " was refused ...");
           break;
       }
     }
@@ -73,7 +76,8 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
 
     double prix = maladie.getPrixInitial();
     Date today = new Date();
-    Proposition proposition = new Proposition(prix, new Date(),new Date(today.getTime() + (1000 * 60 * 60 * 24)), request.getNb(),
+    Proposition proposition = new Proposition(prix, new Date(),
+        new Date(today.getTime() + (1000 * 60 * 60 * 24)), request.getNb(),
         maladie.getVolume());
 
     getDataStore().put(demand.getConversationId(), proposition);
@@ -82,7 +86,6 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
     offerWithoutTime.setContent(gson.toJson(proposition));
 
     return offerWithoutTime;
-
   }
 
 }
