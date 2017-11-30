@@ -1,8 +1,9 @@
 package fr.m2.miage.pharma.discuss;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Request {
+public class Request implements Serializable {
 
   private String maladie;
   private int nb;

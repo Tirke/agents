@@ -60,11 +60,9 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
     saveVente(myAgent.getName(), aclMessage.getSender().getName(), new Date(), new Date(),
         proposition.getNombre(), proposition.getPrix(),
         (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie"));
-
   }
 
   private ACLMessage getRespondMessage(ACLMessage demand) {
-
     // Create new messages from demand
     ACLMessage offerWithoutTime = demand.createReply();
 

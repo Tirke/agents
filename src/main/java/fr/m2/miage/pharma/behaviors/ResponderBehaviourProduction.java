@@ -96,13 +96,13 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
 
     int i = 0;
     while (unitsToRemove > 0 && i < listeLot.size()) {
-
       int removeOnThisLot = Integer.min(unitsToRemove, listeLot.get(i).getStockActuel());
       listeLot.get(i).setStockActuel(listeLot.get(i).getStockActuel() - removeOnThisLot);
 
       unitsToRemove -= removeOnThisLot;
       i += 1;
     }
+
     if (listeLot != null) {
       saveCollectionInDB(listeLot);
     }
@@ -117,14 +117,13 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     int productionPrevue = (int) getDataStore()
         .get(aclMessage.getConversationId() + ":productionPrevue");
     int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption);
+    boolean weCanSale = availableUnits + productionPrevue >= proposition.getNombre();
 
-    if (availableUnits + productionPrevue >= proposition.getNombre()) {
+    if (weCanSale) {
       saveVente(myAgent.getName(), aclMessage.getSender().getName(), proposition.getDateLivraison(),
           new Date(), proposition.getNombre(), proposition.getPrix(), maladie);
-      return true;
-    } else {
-      return false;
     }
+    return weCanSale;
   }
 
   private ACLMessage getRespondMessage(ACLMessage demand) {

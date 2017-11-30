@@ -94,14 +94,14 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     Date datePeremption = (Date) getDataStore()
         .get(aclMessage.getConversationId() + ":datePeremption");
     int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption);
+    boolean weHaveEnough = availableUnits >= proposition.getNombre();
 
-    if (availableUnits >= proposition.getNombre()) {
+    if (weHaveEnough) {
       saveVente(myAgent.getName(), aclMessage.getSender().getName(), proposition.getDateLivraison(),
           new Date(), proposition.getNombre(), proposition.getPrix(), maladie);
-      return true;
-    } else {
-      return false;
     }
+
+    return weHaveEnough;
   }
 
   private ACLMessage getRespondMessage(ACLMessage demand) {

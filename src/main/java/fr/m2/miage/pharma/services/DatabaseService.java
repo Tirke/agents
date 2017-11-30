@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.Random;
 import org.hibernate.Session;
 
-/**
- * Created by Antoine on 29/11/2017.
- */
 public class DatabaseService {
 
   public static int getAvailableUnits(String maladieName, Date peremption) {
