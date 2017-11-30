@@ -5,9 +5,11 @@ import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFac
 import fr.m2.miage.pharma.models.Lot;
 import fr.m2.miage.pharma.models.Maladie;
 import fr.m2.miage.pharma.models.Vente;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import org.hibernate.Session;
 
 /**
@@ -98,6 +100,40 @@ public class DatabaseService {
     }
 
     session.getTransaction().commit();
+    session.close();
+  }
+
+  public static void addStockToRandomMaladie(){
+    Session session = getSessionFactory().openSession();
+
+    List<Maladie> maladies = session
+        .getNamedQuery("getAllMaladie")
+        .getResultList();
+
+    Random randomizer = new Random();
+    Maladie maladie = maladies.get(randomizer.nextInt(maladies.size()));
+
+    Object result = session
+        .getNamedQuery("getStockNoDate")
+        .setParameter("maladieName", maladie.getNom())
+        .getResultList().get(0);
+    int stock = (result == null) ? 0 : ((Long) result).intValue();
+
+    if (stock <= 20){
+      // On met au hasard le nombre de vaccin à créer
+      int stockToSet = randomizer.nextInt(50)+50;
+      Date permeption = new Date(Instant.now().toEpochMilli() + maladie.getDelaiPeremption());
+      Date fabrication = new Date(Instant.now().toEpochMilli() + maladie.getProductionTime()*stockToSet);
+
+      Lot futureLot = new Lot();
+      futureLot.setStockActuel(stockToSet);
+      futureLot.setStockInitial(stockToSet);
+      futureLot.setMaladie(maladie);
+      futureLot.setDatePeremption(permeption);
+      futureLot.setDateFabrication(fabrication);
+      session.save(futureLot);
+
+    }
     session.close();
   }
 }
