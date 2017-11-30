@@ -46,6 +46,7 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
           ACLMessage inform = aclMessage.createReply();
           aclMessage.setPerformative(ACLMessage.INFORM);
           myAgent.send(inform);
+          System.out.println("inform sent");
           break;
         case ACLMessage.REJECT_PROPOSAL:
           logger.info("The proposition done by " + myAgent.getName() + " was refused ...");
