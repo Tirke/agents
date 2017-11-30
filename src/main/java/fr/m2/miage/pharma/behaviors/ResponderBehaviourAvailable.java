@@ -1,11 +1,10 @@
 package fr.m2.miage.pharma.behaviors;
 
 import static fr.m2.miage.pharma.services.DatabaseService.getAllNotEmptyLotFromMaladie;
+import static fr.m2.miage.pharma.services.DatabaseService.getAvailableUnits;
 import static fr.m2.miage.pharma.services.DatabaseService.getMaladieByName;
 import static fr.m2.miage.pharma.services.DatabaseService.getMinDatePremption;
 import static fr.m2.miage.pharma.services.DatabaseService.saveCollectionInDB;
-import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
-import static fr.m2.miage.pharma.services.DatabaseService.getAvailableUnits;
 import static fr.m2.miage.pharma.services.DatabaseService.saveVente;
 
 import com.google.gson.Gson;
@@ -14,17 +13,15 @@ import fr.m2.miage.pharma.discuss.Proposition;
 import fr.m2.miage.pharma.discuss.Request;
 import fr.m2.miage.pharma.models.Lot;
 import fr.m2.miage.pharma.models.Maladie;
-import fr.m2.miage.pharma.models.Vente;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Session;
 
 public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
-  final Gson gson = new GsonBuilder().create();
+  private final Gson gson = new GsonBuilder().create();
 
 
   public ResponderBehaviourAvailable(Agent agent) {
@@ -81,7 +78,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
       i += 1;
     }
 
-    saveCollectionInDB(listeLot, Lot.class);
+    saveCollectionInDB(listeLot);
   }
 
   private boolean registerSale(ACLMessage aclMessage) {

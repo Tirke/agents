@@ -103,6 +103,7 @@ public class DatabaseService {
     session.close();
   }
 
+
   public static void addStockToRandomMaladie() {
     Session session = getSessionFactory().openSession();
 
@@ -137,6 +138,7 @@ public class DatabaseService {
     }
     session.close();
   }
+
 
   public static void saveObjectInDB(Object o) {
     Session session = getSessionFactory().openSession();
