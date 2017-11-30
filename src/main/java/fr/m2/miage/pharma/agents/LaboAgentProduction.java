@@ -1,11 +1,14 @@
 package fr.m2.miage.pharma.agents;
 
+import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
+
 import fr.m2.miage.pharma.behaviors.ProductionBehaviour;
 import fr.m2.miage.pharma.behaviors.RegisterService;
-import fr.m2.miage.pharma.behaviors.ResponderBehaviourProduction;
 import jade.core.Agent;
 
-public class LaboAgentProduction extends Agent{
+public class LaboAgentProduction extends Agent {
+
+  private Logger
 
   @Override
   protected void setup() {
@@ -20,5 +23,9 @@ public class LaboAgentProduction extends Agent{
   }
 
 
+  @Override
+  protected void takeDown() {
 
+    getSessionFactory().close();
+  }
 }
