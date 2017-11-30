@@ -109,7 +109,6 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     Maladie maladie = getMaladieByName(request.getMaladie());
 
     ACLMessage offerWithoutTime = demand.createReply();
-    offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
 
     int proposeUnit = Integer
         .min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
@@ -124,6 +123,13 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     getDataStore().put(demand.getConversationId() + ":datePeremption", request.getDate());
 
     offerWithoutTime.setContent(gson.toJson(propositionWithoutTime));
+
+    if (proposeUnit == 0) {
+      // On ne fait pas d'offre si on n'a pas les vaccins en DB
+      offerWithoutTime.setPerformative(ACLMessage.REFUSE);
+    } else {
+      offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
+    }
 
     return offerWithoutTime;
   }
