@@ -17,7 +17,7 @@ import org.hibernate.Session;
  */
 public class DatabaseService {
 
-  public static int getAvailableUnits(String maladieName, Date peremption){
+  public static int getAvailableUnits(String maladieName, Date peremption) {
     Session session = getSessionFactory().openSession();
     int availableUnits;
     //int overflow is possible
@@ -27,7 +27,7 @@ public class DatabaseService {
           .setParameter("maladieName", maladieName)
           .setParameter("datePeremption", peremption)
           .getSingleResult();
-    } catch (ArithmeticException e){
+    } catch (ArithmeticException e) {
       availableUnits = Integer.MAX_VALUE;
     }
     session.close();
@@ -35,7 +35,7 @@ public class DatabaseService {
     return availableUnits;
   }
 
-  public static Date getMinDatePremption(String maladieName, Date peremption){
+  public static Date getMinDatePremption(String maladieName, Date peremption) {
     Session session = getSessionFactory().openSession();
     Date minPeremption = (Date) session
         .getNamedQuery("getMinPeremptionForMaladie")
@@ -53,7 +53,7 @@ public class DatabaseService {
       Date dateVente,
       int nbUnite,
       double prixUnitaire,
-      Maladie maladie){
+      Maladie maladie) {
     Vente vente = new Vente();
     vente.setAgent(agentName);
     vente.setClient(client);
@@ -70,7 +70,7 @@ public class DatabaseService {
     session.close();
   }
 
-  public static Maladie getMaladieByName(String name){
+  public static Maladie getMaladieByName(String name) {
     Session session = getSessionFactory().openSession();
     Maladie maladie = (Maladie) session
         .getNamedQuery("getMaladieByName")
@@ -81,29 +81,29 @@ public class DatabaseService {
     return maladie;
   }
 
-  public static List<Lot> getAllNotEmptyLotFromMaladie(String maladieName){
+  public static List<Lot> getAllNotEmptyLotFromMaladie(String maladieName) {
     Session session = getSessionFactory().openSession();
     List<Lot> listeLot = session
-        .getNamedQuery("getAllNotEmptyLotFromMaladie")
+        .createNamedQuery("getAllNotEmptyLotFromMaladie", Lot.class)
         .setParameter("maladieName", maladieName)
         .getResultList();
     session.close();
     return listeLot;
   }
 
-  public static void saveCollectionInDB(Collection collection, Class classe){
+  public static void saveCollectionInDB(Collection collection) {
     Session session = getSessionFactory().openSession();
     session.beginTransaction();
 
     for (Object o : collection) {
-      session.save((Class) o);
+      session.save(o);
     }
 
     session.getTransaction().commit();
     session.close();
   }
 
-  public static void addStockToRandomMaladie(){
+  public static void addStockToRandomMaladie() {
     Session session = getSessionFactory().openSession();
 
     List<Maladie> maladies = session
@@ -119,11 +119,12 @@ public class DatabaseService {
         .getResultList().get(0);
     int stock = (result == null) ? 0 : ((Long) result).intValue();
 
-    if (stock <= 20){
+    if (stock <= 20) {
       // On met au hasard le nombre de vaccin à créer
-      int stockToSet = randomizer.nextInt(50)+50;
+      int stockToSet = randomizer.nextInt(50) + 50;
       Date permeption = new Date(Instant.now().toEpochMilli() + maladie.getDelaiPeremption());
-      Date fabrication = new Date(Instant.now().toEpochMilli() + maladie.getProductionTime()*stockToSet);
+      Date fabrication = new Date(
+          Instant.now().toEpochMilli() + maladie.getProductionTime() * stockToSet);
 
       Lot futureLot = new Lot();
       futureLot.setStockActuel(stockToSet);
@@ -134,6 +135,14 @@ public class DatabaseService {
       session.save(futureLot);
 
     }
+    session.close();
+  }
+
+  public static void saveObjectInDB(Object o) {
+    Session session = getSessionFactory().openSession();
+    session.beginTransaction();
+    session.save(o);
+    session.getTransaction().commit();
     session.close();
   }
 }
