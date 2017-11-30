@@ -1,13 +1,12 @@
 package fr.m2.miage.pharma.behaviors;
 
 import static fr.m2.miage.pharma.services.DatabaseService.getAllNotEmptyLotFromMaladie;
+import static fr.m2.miage.pharma.services.DatabaseService.getAvailableUnits;
 import static fr.m2.miage.pharma.services.DatabaseService.getMaladieByName;
 import static fr.m2.miage.pharma.services.DatabaseService.getMinDatePremption;
 import static fr.m2.miage.pharma.services.DatabaseService.saveCollectionInDB;
 import static fr.m2.miage.pharma.services.DatabaseService.saveObjectInDB;
 import static fr.m2.miage.pharma.services.DatabaseService.saveVente;
-import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
-import static fr.m2.miage.pharma.services.DatabaseService.getAvailableUnits;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,18 +14,16 @@ import fr.m2.miage.pharma.discuss.Proposition;
 import fr.m2.miage.pharma.discuss.Request;
 import fr.m2.miage.pharma.models.Lot;
 import fr.m2.miage.pharma.models.Maladie;
-import fr.m2.miage.pharma.models.Vente;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Session;
 
 public class ResponderBehaviourProduction extends CyclicBehaviour {
 
-  final Gson gson = new GsonBuilder().create();
+  private final Gson gson = new GsonBuilder().create();
 
   public ResponderBehaviourProduction(Agent a) {
     super(a);
@@ -97,7 +94,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
       i += 1;
     }
     if (listeLot != null) {
-      saveCollectionInDB(listeLot, Lot.class);
+      saveCollectionInDB(listeLot);
     }
   }
 

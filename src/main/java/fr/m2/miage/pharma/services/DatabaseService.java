@@ -101,7 +101,7 @@ public class DatabaseService {
     session.close();
   }
 
-  public static void saveObjectInDB(Object o){
+  public static void saveObjectInDB(Object o) {
     Session session = getSessionFactory().openSession();
     session.beginTransaction();
     session.save(o);

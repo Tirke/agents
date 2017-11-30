@@ -1,26 +1,22 @@
 package fr.m2.miage.pharma.behaviors;
 
-import static fr.m2.miage.pharma.services.DatabaseService.saveVente;
-import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
 import static fr.m2.miage.pharma.services.DatabaseService.getMaladieByName;
+import static fr.m2.miage.pharma.services.DatabaseService.saveVente;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.m2.miage.pharma.discuss.Proposition;
 import fr.m2.miage.pharma.discuss.Request;
 import fr.m2.miage.pharma.models.Maladie;
-import fr.m2.miage.pharma.models.Vente;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.Date;
-import javax.persistence.Query;
-import org.hibernate.Session;
 
 public class ResponderBehaviourBoiron extends CyclicBehaviour {
 
 
-  final Gson gson = new GsonBuilder().create();
+  private final Gson gson = new GsonBuilder().create();
 
 
   public ResponderBehaviourBoiron(Agent agent) {
