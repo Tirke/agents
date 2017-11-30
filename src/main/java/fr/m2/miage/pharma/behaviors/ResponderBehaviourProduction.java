@@ -4,6 +4,7 @@ import static fr.m2.miage.pharma.services.DatabaseService.getAllNotEmptyLotFromM
 import static fr.m2.miage.pharma.services.DatabaseService.getMaladieByName;
 import static fr.m2.miage.pharma.services.DatabaseService.getMinDatePremption;
 import static fr.m2.miage.pharma.services.DatabaseService.saveCollectionInDB;
+import static fr.m2.miage.pharma.services.DatabaseService.saveObjectInDB;
 import static fr.m2.miage.pharma.services.DatabaseService.saveVente;
 import static fr.m2.miage.pharma.services.HibernateSessionProvider.getSessionFactory;
 import static fr.m2.miage.pharma.services.DatabaseService.getAvailableUnits;
@@ -75,6 +76,8 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     futureLot.setMaladie(maladie);
     futureLot.setDatePeremption(proposition.getDatePeremption());
     futureLot.setDateFabrication(proposition.getDateLivraison());
+
+    saveObjectInDB(futureLot);
   }
 
   private void adjustStock(ACLMessage aclMessage) {

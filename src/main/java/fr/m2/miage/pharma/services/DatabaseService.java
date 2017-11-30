@@ -100,4 +100,12 @@ public class DatabaseService {
     session.getTransaction().commit();
     session.close();
   }
+
+  public static void saveObjectInDB(Object o){
+    Session session = getSessionFactory().openSession();
+    session.beginTransaction();
+    session.save(o);
+    session.getTransaction().commit();
+    session.close();
+  }
 }
