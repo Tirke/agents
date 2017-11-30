@@ -37,6 +37,8 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
 
         // Association respond agree
         case ACLMessage.ACCEPT_PROPOSAL:
+          System.out.println("The proposition done by " + myAgent.getName() + " was accepted :D");
+
           registerSale(aclMessage);
           ACLMessage inform = aclMessage.createReply();
           aclMessage.setPerformative(ACLMessage.INFORM);

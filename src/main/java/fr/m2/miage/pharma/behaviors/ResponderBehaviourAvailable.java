@@ -42,6 +42,8 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
         // Association respond agree
         case ACLMessage.ACCEPT_PROPOSAL:
+          System.out.println("The proposition done by " + myAgent.getName() + " was accepted :D");
+
           if(registerSale(aclMessage)){
             adjustStock(aclMessage);
             ACLMessage reponseValidation = aclMessage.createReply();

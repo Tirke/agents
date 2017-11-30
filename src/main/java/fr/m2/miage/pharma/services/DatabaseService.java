@@ -19,14 +19,17 @@ public class DatabaseService {
 
   public static int getAvailableUnits(String maladieName, Date peremption) {
     Session session = getSessionFactory().openSession();
-    int availableUnits;
-    //int overflow is possible
+    Integer availableUnits;
+
     try {
-      availableUnits = (int) (long) session
-          .getNamedQuery("getStock")
+      Long getResult = session
+          .createNamedQuery("getStock", Long.class)
           .setParameter("maladieName", maladieName)
           .setParameter("datePeremption", peremption)
           .getSingleResult();
+
+      availableUnits = (getResult == null) ? 0 : Math.toIntExact(getResult);
+      //int overflow is possible so we catch
     } catch (ArithmeticException e) {
       availableUnits = Integer.MAX_VALUE;
     }
@@ -117,7 +120,7 @@ public class DatabaseService {
     Long getResult = session
         .createNamedQuery("getStockNoDate", Long.class)
         .setParameter("maladieName", maladie.getNom())
-        .getResultList().get(0);
+        .getSingleResult();
 
     Integer stock = (getResult == null) ? 0 : Math.toIntExact(getResult);
 

@@ -12,13 +12,10 @@ public class LaboAgentProduction extends Agent{
     RegisterService rs = new RegisterService(this, "laboProduction", "labo");
     this.addBehaviour(rs);
 
-//    ResponderBehaviourProduction rb = new ResponderBehaviourProduction(this);
-//    this.addBehaviour(rb);
+    ResponderBehaviourProduction rb = new ResponderBehaviourProduction(this);
+    this.addBehaviour(rb);
 
     ProductionBehaviour pb = new ProductionBehaviour(this, 1000);
     this.addBehaviour(pb);
   }
-
-
-
 }

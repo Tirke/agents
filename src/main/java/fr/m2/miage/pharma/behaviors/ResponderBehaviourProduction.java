@@ -42,6 +42,8 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
           break;
 
         case ACLMessage.ACCEPT_PROPOSAL:
+          System.out.println("The proposition done by " + myAgent.getName() + " was accepted :D");
+
           if(registerSale(aclMessage)){
             adjustStock(aclMessage);
             createFutureLot(aclMessage);
