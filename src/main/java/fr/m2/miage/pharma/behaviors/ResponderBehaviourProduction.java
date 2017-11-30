@@ -50,10 +50,13 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
             ACLMessage reponseValidation = aclMessage.createReply();
             reponseValidation.setPerformative(ACLMessage.INFORM);
             myAgent.send(reponseValidation);
+            System.out.println("inform sent");
           } else {
             ACLMessage reponseRefus = aclMessage.createReply();
             reponseRefus.setPerformative(ACLMessage.FAILURE);
             myAgent.send(reponseRefus);
+            System.out.println("failure sent");
+
           }
           break;
 
