@@ -108,7 +108,7 @@ public class DatabaseService {
     Session session = getSessionFactory().openSession();
 
     List<Maladie> maladies = session
-        .getNamedQuery("getAllMaladie")
+        .createNamedQuery("getAllMaladie", Maladie.class)
         .getResultList();
 
     Random randomizer = new Random();
