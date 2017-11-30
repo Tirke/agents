@@ -34,7 +34,7 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
-          logger.info("Sending offer");
+          logger.info("Sending offer" + offer.getPerformative());
           myAgent.send(offer);
           break;
 

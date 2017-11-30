@@ -41,7 +41,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
-          logger.info("Sending offer");
+          logger.info("Sending offer" + offer.getPerformative());
           myAgent.send(offer);
           break;
 
@@ -54,12 +54,12 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
             ACLMessage reponseValidation = aclMessage.createReply();
             reponseValidation.setPerformative(ACLMessage.INFORM);
             myAgent.send(reponseValidation);
-            System.out.println("inform sent");
+            logger.info("inform sent");
           } else {
             ACLMessage reponseRefus = aclMessage.createReply();
             reponseRefus.setPerformative(ACLMessage.FAILURE);
             myAgent.send(reponseRefus);
-            System.out.println("failure sent");
+            logger.info("failure sent");
 
           }
           break;

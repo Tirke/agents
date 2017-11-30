@@ -40,7 +40,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
-          logger.info("Sending offer");
+          logger.info("Sending offer" + offer.getPerformative());
           myAgent.send(offer);
           break;
 
@@ -127,6 +127,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     if (proposeUnit == 0) {
       // On ne fait pas d'offre si on n'a pas les vaccins en DB
       offerWithoutTime.setPerformative(ACLMessage.REFUSE);
+      logger.info("*** Je refuse " + proposeUnit);
     } else {
       offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
     }
