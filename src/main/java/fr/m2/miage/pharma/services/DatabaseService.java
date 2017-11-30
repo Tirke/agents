@@ -114,11 +114,12 @@ public class DatabaseService {
     Random randomizer = new Random();
     Maladie maladie = maladies.get(randomizer.nextInt(maladies.size()));
 
-    Object result = session
-        .getNamedQuery("getStockNoDate")
+    Integer result = session
+        .createNamedQuery("getStockNoDate", Integer.class)
         .setParameter("maladieName", maladie.getNom())
         .getResultList().get(0);
-    int stock = (result == null) ? 0 : ((Long) result).intValue();
+
+    int stock = (result == null) ? 0 : result;
 
     if (stock <= 20) {
       // On met au hasard le nombre de vaccin à créer
