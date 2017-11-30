@@ -15,28 +15,28 @@ import org.hibernate.annotations.GenericGenerator;
         query = "select sum(l.stockActuel) from Lot l "
             + "where l.maladie.nom = :maladieName and "
             + "l.datePeremption > :datePeremption and "
-            + "l.dateFabrication < current_date"
+            + "l.dateFabrication < current_timestamp "
     ),
     @NamedQuery(
         name = "getAllNotEmptyLotFromMaladie",
         query = "select l from Lot l "
             + "where l.maladie.nom = :maladieName and "
             + "l.stockActuel > 0 and "
-            + "l.dateFabrication < current_date "
+            + "l.dateFabrication < current_timestamp "
             + "order by l.datePeremption"
     ),
     @NamedQuery(
         name = "getStockNoDate",
         query = "select sum(l.stockActuel) from Lot l "
             + "where l.maladie.nom = :maladieName "
-            + "and l.datePeremption >= current_date"
+            + "and l.datePeremption >= current_timestamp "
     ),
     @NamedQuery(
         name = "getMinPeremptionForMaladie",
         query = "select min(l.datePeremption) from Lot l where "
             + "l.maladie.nom = :maladieName and "
             + "l.datePeremption > :datePeremption and "
-            + "l.dateFabrication < current_date"
+            + "l.dateFabrication < current_timestamp "
     )
 })
 
