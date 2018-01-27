@@ -92,9 +92,9 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
   private void adjustStock(ACLMessage aclMessage) {
     Proposition proposition = (Proposition) getDataStore().get(aclMessage.getConversationId());
     Maladie maladie = (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie");
-    int unitsToRemove = getAvailableUnits(maladie.getNom(), proposition.getDatePeremption());
+    int unitsToRemove = getAvailableUnits(maladie.getNom(), proposition.getDatePeremption(), myAgent.getName());
 
-    List<Lot> listeLot = getAllNotEmptyLotFromMaladie(maladie.getNom());
+    List<Lot> listeLot = getAllNotEmptyLotFromMaladie(maladie.getNom(), myAgent.getName());
 
     int i = 0;
     while (unitsToRemove > 0 && i < listeLot.size()) {
@@ -118,7 +118,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
         .get(aclMessage.getConversationId() + ":datePeremption");
     int productionPrevue = (int) getDataStore()
         .get(aclMessage.getConversationId() + ":productionPrevue");
-    int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption);
+    int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption, myAgent.getName());
     boolean weCanSale = availableUnits + productionPrevue >= proposition.getNombre();
 
     if (weCanSale) {
@@ -135,7 +135,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     ACLMessage offerWithTime = demand.createReply();
     offerWithTime.setPerformative(ACLMessage.PROPOSE);
 
-    int availableUnits = getAvailableUnits(maladie.getNom(), request.getDate());
+    int availableUnits = getAvailableUnits(maladie.getNom(), request.getDate(), myAgent.getName());
 
     // Price and Delevery date if we have enough units
     double prix = maladie.getPrixInitial();
@@ -149,7 +149,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
               - availableUnits));
     }
 
-    Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate());
+    Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate(), myAgent.getName());
     // This date may be null if there is no units available in database
     // Which means we have to calculate this date
     if (datePeremption == null) {

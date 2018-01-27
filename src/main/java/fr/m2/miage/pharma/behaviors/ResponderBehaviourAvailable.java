@@ -74,7 +74,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     int unitsToRemove = proposition.getNombre();
     Maladie maladie = (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie");
 
-    List<Lot> listeLot = getAllNotEmptyLotFromMaladie(maladie.getNom());
+    List<Lot> listeLot = getAllNotEmptyLotFromMaladie(maladie.getNom(), myAgent.getName());
 
     int i = 0;
     while (unitsToRemove > 0 && i < listeLot.size()) {
@@ -95,7 +95,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     Maladie maladie = (Maladie) getDataStore().get(aclMessage.getConversationId() + ":maladie");
     Date datePeremption = (Date) getDataStore()
         .get(aclMessage.getConversationId() + ":datePeremption");
-    int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption);
+    int availableUnits = getAvailableUnits(maladie.getNom(), datePeremption, myAgent.getName());
     boolean weHaveEnough = availableUnits >= proposition.getNombre();
 
     if (weHaveEnough) {
@@ -113,8 +113,8 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     ACLMessage offerWithoutTime = demand.createReply();
 
     int proposeUnit = Integer
-        .min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
-    Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate());
+        .min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate(), myAgent.getName()));
+    Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate(), myAgent.getName());
     double prix = maladie.getPrixInitial() * (1 - reduction);
 
     Proposition propositionWithoutTime = new Proposition(prix, new Date(), datePeremption,

@@ -18,7 +18,7 @@ public class DatabaseService {
 
   private static final Logger logger = LoggerFactory.getLogger(DatabaseService.class);
 
-  public static int getAvailableUnits(String maladieName, Date peremption) {
+  public static int getAvailableUnits(String maladieName, Date peremption, String agentName) {
     Session session = getSessionFactory().openSession();
     Integer availableUnits;
 
@@ -27,6 +27,7 @@ public class DatabaseService {
           .createNamedQuery("getStock", Long.class)
           .setParameter("maladieName", maladieName)
           .setParameter("datePeremption", peremption)
+          .setParameter("agentName", agentName.split("-")[0])
           .getSingleResult();
 
       availableUnits = (getResult == null) ? 0 : Math.toIntExact(getResult);
@@ -39,12 +40,13 @@ public class DatabaseService {
     return availableUnits;
   }
 
-  public static Date getMinDatePremption(String maladieName, Date peremption) {
+  public static Date getMinDatePremption(String maladieName, Date peremption, String agentName) {
     Session session = getSessionFactory().openSession();
     Date minPeremption = (Date) session
         .getNamedQuery("getMinPeremptionForMaladie")
         .setParameter("maladieName", maladieName)
         .setParameter("datePeremption", peremption)
+        .setParameter("agentName", agentName.split("-")[0])
         .getSingleResult();
     session.close();
     return minPeremption;
@@ -85,11 +87,12 @@ public class DatabaseService {
     return maladie;
   }
 
-  public static List<Lot> getAllNotEmptyLotFromMaladie(String maladieName) {
+  public static List<Lot> getAllNotEmptyLotFromMaladie(String maladieName, String agentName) {
     Session session = getSessionFactory().openSession();
     List<Lot> listeLot = session
         .createNamedQuery("getAllNotEmptyLotFromMaladie", Lot.class)
         .setParameter("maladieName", maladieName)
+        .setParameter("agentName", agentName.split("-")[0])
         .getResultList();
     session.close();
     return listeLot;
@@ -108,7 +111,7 @@ public class DatabaseService {
   }
 
 
-  public static void addStockToRandomMaladie(int minStockTrigger) {
+  public static void addStockToRandomMaladie(int minStockTrigger, String agentName) {
     Session session = getSessionFactory().openSession();
 
     List<Maladie> maladies = session
@@ -121,6 +124,7 @@ public class DatabaseService {
     Long getResult = session
         .createNamedQuery("getStockNoDate", Long.class)
         .setParameter("maladieName", maladie.getNom())
+        .setParameter("agentName", agentName.split("-")[0])
         .getSingleResult();
 
     Integer stock = (getResult == null) ? 0 : Math.toIntExact(getResult);
@@ -135,6 +139,7 @@ public class DatabaseService {
 
       session.beginTransaction();
       Lot futureLot = new Lot();
+      futureLot.setAgentName(agentName.split("-")[0]);
       futureLot.setStockActuel(stockToSet);
       futureLot.setStockInitial(stockToSet);
       futureLot.setMaladie(maladie);
@@ -142,7 +147,7 @@ public class DatabaseService {
       futureLot.setDateFabrication(fabrication);
       session.save(futureLot);
       session.getTransaction().commit();
-      logger.info("Création de " +
+      logger.info(agentName + " : Création de " +
           stockToSet + " vaccins pour " +
           maladie.getNom());
     }

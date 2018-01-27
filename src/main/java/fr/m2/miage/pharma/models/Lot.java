@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
         name = "getStock",
         query = "select sum(l.stockActuel) from Lot l "
             + "where l.maladie.nom = :maladieName and "
+            + "l.agentName = :agentName and "
             + "l.datePeremption > :datePeremption and "
             + "l.dateFabrication < current_timestamp "
     ),
@@ -21,6 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
         name = "getAllNotEmptyLotFromMaladie",
         query = "select l from Lot l "
             + "where l.maladie.nom = :maladieName and "
+            + "l.agentName = :agentName and "
             + "l.stockActuel > 0 and "
             + "l.dateFabrication < current_timestamp "
             + "order by l.datePeremption"
@@ -28,13 +30,15 @@ import org.hibernate.annotations.GenericGenerator;
     @NamedQuery(
         name = "getStockNoDate",
         query = "select sum(l.stockActuel) from Lot l "
-            + "where l.maladie.nom = :maladieName "
-            + "and l.datePeremption >= current_timestamp "
+            + "where l.maladie.nom = :maladieName and "
+            + "l.agentName = :agentName and "
+            + "l.datePeremption >= current_timestamp "
     ),
     @NamedQuery(
         name = "getMinPeremptionForMaladie",
         query = "select min(l.datePeremption) from Lot l where "
             + "l.maladie.nom = :maladieName and "
+            + "l.agentName = :agentName and "
             + "l.datePeremption > :datePeremption and "
             + "l.dateFabrication < current_timestamp "
     )
@@ -47,6 +51,7 @@ public class Lot {
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private String id;
+  private String agentName;
   private Date datePeremption;
   private Date dateFabrication;
   private int stockInitial;
@@ -56,6 +61,14 @@ public class Lot {
 
   public Date getDatePeremption() {
     return datePeremption;
+  }
+
+  public String getAgentName() {
+    return agentName;
+  }
+
+  public void setAgentName(String agentName) {
+    this.agentName = agentName;
   }
 
   public void setDatePeremption(Date datePeremption) {

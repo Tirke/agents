@@ -17,6 +17,6 @@ public class ProductionBehaviour extends TickerBehaviour {
 
   @Override
   protected void onTick() {
-    addStockToRandomMaladie(minStockTrigger);
+    addStockToRandomMaladie(minStockTrigger, this.myAgent.getName());
   }
 }
