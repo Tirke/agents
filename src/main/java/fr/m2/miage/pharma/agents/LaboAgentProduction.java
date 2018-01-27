@@ -16,8 +16,8 @@ public class LaboAgentProduction extends Agent {
   @Override
   protected void setup() {
     Object[] args = getArguments();
-    double reduction = (Double) args[0];
-    int minStockTrigger = (Integer) args[1];
+    double reduction = Double.parseDouble(args[0].toString());
+    int minStockTrigger = Integer.parseInt(args[1].toString());
 
     RegisterService rs = new RegisterService(this, this.getLocalName(), "labo");
     this.addBehaviour(rs);

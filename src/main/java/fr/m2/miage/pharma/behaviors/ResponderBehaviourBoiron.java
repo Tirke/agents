@@ -34,7 +34,7 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
-          logger.info("Sending offer" + offer.getPerformative());
+          logger.info("Sending offer");
           myAgent.send(offer);
           break;
 
@@ -67,6 +67,11 @@ public class ResponderBehaviourBoiron extends CyclicBehaviour {
     ACLMessage offerWithoutTime = demand.createReply();
 
     Request request = gson.fromJson(demand.getContent(), Request.class);
+    logger.info(
+        "New demand from " + demand.getSender().getName() + " (vaccin : " + request.getMaladie()
+            + ", quantity : " + request.getNb()
+            + ", date : " + request.getDate() + ")"
+    );
 
     // Set type of respond : propose to propose
     offerWithoutTime.setPerformative(ACLMessage.PROPOSE);

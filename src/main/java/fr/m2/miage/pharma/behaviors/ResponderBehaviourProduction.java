@@ -130,6 +130,12 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
 
   private ACLMessage getRespondMessage(ACLMessage demand) {
     Request request = gson.fromJson(demand.getContent(), Request.class);
+    logger.info(
+        "New demand from " + demand.getSender().getName() + " (vaccin : " + request.getMaladie()
+            + ", quantity : " + request.getNb()
+            + ", date : " + request.getDate() + ")"
+    );
+
     Maladie maladie = getMaladieByName(request.getMaladie());
 
     ACLMessage offerWithTime = demand.createReply();
@@ -166,6 +172,13 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     getDataStore().put(demand.getConversationId() + ":datePeremption", request.getDate());
     getDataStore()
         .put(demand.getConversationId() + ":productionPrevue", request.getNb() - availableUnits);
+
+    logger.info("Sending proposition (prix : " + propositionWithTime.getPrix()
+        + ", quantity : " + propositionWithTime.getNombre()
+        + ", delivery : " + propositionWithTime.getDateLivraison()
+        + ", peremption : " + propositionWithTime.getDatePeremption()
+        + ", volume : " + propositionWithTime.getVolume() + ")"
+    );
 
     return offerWithTime;
   }

@@ -15,7 +15,7 @@ public class LaboAgentAvailable extends Agent {
   @Override
   protected void setup() {
     Object[] args = getArguments();
-    double reduction = (Double) args[0];
+    double reduction = Double.parseDouble(args[0].toString());
 
     RegisterService rs = new RegisterService(this,  this.getLocalName(), "labo");
     this.addBehaviour(rs);
