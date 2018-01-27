@@ -8,12 +8,15 @@ import jade.core.behaviours.TickerBehaviour;
 
 public class ProductionBehaviour extends TickerBehaviour {
 
-  public ProductionBehaviour(Agent a, long period) {
+  private int minStockTrigger;
+
+  public ProductionBehaviour(Agent a, long period, int minStockTrigger) {
     super(a, period);
+    this.minStockTrigger = minStockTrigger;
   }
 
   @Override
   protected void onTick() {
-    addStockToRandomMaladie();
+    addStockToRandomMaladie(minStockTrigger);
   }
 }

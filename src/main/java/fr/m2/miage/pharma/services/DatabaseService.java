@@ -108,7 +108,7 @@ public class DatabaseService {
   }
 
 
-  public static void addStockToRandomMaladie() {
+  public static void addStockToRandomMaladie(int minStockTrigger) {
     Session session = getSessionFactory().openSession();
 
     List<Maladie> maladies = session
@@ -125,7 +125,7 @@ public class DatabaseService {
 
     Integer stock = (getResult == null) ? 0 : Math.toIntExact(getResult);
 
-    if (stock <= 20) {
+    if (stock <= minStockTrigger) {
       // On met au hasard le nombre de vaccin à créer
       int stockToSet = randomizer.nextInt(50) + 50;
 

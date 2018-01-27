@@ -25,10 +25,12 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
   private final Logger logger = LoggerFactory.getLogger(ResponderBehaviourAvailable.class);
   private final Gson gson = new GsonBuilder().create();
+  private double reduction;
 
 
-  public ResponderBehaviourAvailable(Agent agent) {
+  public ResponderBehaviourAvailable(Agent agent, double reduction) {
     super(agent);
+    this.reduction = reduction;
   }
 
   @Override
@@ -113,7 +115,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
     int proposeUnit = Integer
         .min(request.getNb(), getAvailableUnits(request.getMaladie(), request.getDate()));
     Date datePeremption = getMinDatePremption(request.getMaladie(), request.getDate());
-    double prix = maladie.getPrixInitial() * 0.90;
+    double prix = maladie.getPrixInitial() * (1 - reduction);
 
     Proposition propositionWithoutTime = new Proposition(prix, new Date(), datePeremption,
         proposeUnit, maladie.getVolume());

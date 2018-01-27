@@ -27,9 +27,11 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
 
   private final Logger logger = LoggerFactory.getLogger(ResponderBehaviourBoiron.class);
   private final Gson gson = new GsonBuilder().create();
+  private double reduction;
 
-  public ResponderBehaviourProduction(Agent a) {
+  public ResponderBehaviourProduction(Agent a, double reduction) {
     super(a);
+    this.reduction = reduction;
   }
 
   @Override
@@ -136,12 +138,12 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     int availableUnits = getAvailableUnits(maladie.getNom(), request.getDate());
 
     // Price and Delevery date if we have enough units
-    double prix = maladie.getPrixInitial() * 0.9;
+    double prix = maladie.getPrixInitial();
     Date dateLivraison = new Date();
 
     // If we don't, some math
     if (availableUnits < request.getNb()) {
-      prix = maladie.getPrixInitial() * 0.85;
+      prix = maladie.getPrixInitial() * (1 - reduction);
       dateLivraison = new Date(
           Instant.now().toEpochMilli() + maladie.getProductionTime() * (request.getNb()
               - availableUnits));

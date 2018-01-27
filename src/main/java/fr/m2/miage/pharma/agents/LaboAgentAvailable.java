@@ -14,11 +14,14 @@ public class LaboAgentAvailable extends Agent {
 
   @Override
   protected void setup() {
-    RegisterService rs = new RegisterService(this, "laboAvailable", "labo");
+    Object[] args = getArguments();
+    double reduction = (Double) args[0];
+
+    RegisterService rs = new RegisterService(this,  this.getLocalName(), "labo");
     this.addBehaviour(rs);
 
     // Behaviour to respond to association
-    ResponderBehaviourAvailable rb = new ResponderBehaviourAvailable(this);
+    ResponderBehaviourAvailable rb = new ResponderBehaviourAvailable(this, reduction);
     this.addBehaviour(rb);
   }
 

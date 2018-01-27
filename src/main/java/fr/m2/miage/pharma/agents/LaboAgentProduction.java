@@ -15,13 +15,17 @@ public class LaboAgentProduction extends Agent {
 
   @Override
   protected void setup() {
-    RegisterService rs = new RegisterService(this, "laboProduction", "labo");
+    Object[] args = getArguments();
+    double reduction = (Double) args[0];
+    int minStockTrigger = (Integer) args[1];
+
+    RegisterService rs = new RegisterService(this, this.getLocalName(), "labo");
     this.addBehaviour(rs);
 
-    ResponderBehaviourProduction rb = new ResponderBehaviourProduction(this);
+    ResponderBehaviourProduction rb = new ResponderBehaviourProduction(this, reduction);
     this.addBehaviour(rb);
 
-    ProductionBehaviour pb = new ProductionBehaviour(this, 1000);
+    ProductionBehaviour pb = new ProductionBehaviour(this, 1000, minStockTrigger);
     this.addBehaviour(pb);
   }
 
