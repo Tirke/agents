@@ -80,6 +80,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
 
     Lot futureLot = new Lot();
     futureLot.setStockActuel(0);
+    futureLot.setAgentName(myAgent.getName().split("-")[0]);
     futureLot.setStockInitial(prodcutionPrevue);
     futureLot.setMaladie(maladie);
     futureLot.setDatePeremption(proposition.getDatePeremption());
