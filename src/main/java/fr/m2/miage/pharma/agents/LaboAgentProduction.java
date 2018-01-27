@@ -25,7 +25,9 @@ public class LaboAgentProduction extends Agent {
     ResponderBehaviourProduction rb = new ResponderBehaviourProduction(this, reduction);
     this.addBehaviour(rb);
 
-    ProductionBehaviour pb = new ProductionBehaviour(this, 1000, minStockTrigger);
+
+    ProductionBehaviour pb = new ProductionBehaviour(this, 3000, minStockTrigger);
+
     this.addBehaviour(pb);
   }
 

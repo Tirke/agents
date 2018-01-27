@@ -42,7 +42,6 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
-          logger.info("Sending offer" + offer.getPerformative());
           myAgent.send(offer);
           break;
 
@@ -108,6 +107,8 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
 
   private ACLMessage getRespondMessage(ACLMessage demand) {
     Request request = gson.fromJson(demand.getContent(), Request.class);
+    logger.info("New demand from association : " + request.toString());
+
     Maladie maladie = getMaladieByName(request.getMaladie());
 
     ACLMessage offerWithoutTime = demand.createReply();
@@ -131,6 +132,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
       offerWithoutTime.setPerformative(ACLMessage.REFUSE);
       logger.info("*** Je refuse " + proposeUnit);
     } else {
+      logger.info("Sending proposition : " + propositionWithoutTime.toString());
       offerWithoutTime.setPerformative(ACLMessage.PROPOSE);
     }
 
