@@ -136,7 +136,7 @@ public class ResponderBehaviourAvailable extends CyclicBehaviour {
       offerWithoutTime.setPerformative(ACLMessage.REFUSE);
       logger.info("*** Je refuse " + proposeUnit);
     } else {
-      logger.info("Sending proposition (prix : " + propositionWithoutTime.getPrix()
+      logger.info("Sending proposition "+ myAgent.getName() +" (prix : " + propositionWithoutTime.getPrix()
           + ", quantity : " + propositionWithoutTime.getNombre()
           + ", delivery : " + propositionWithoutTime.getDateLivraison()
           + ", peremption : " + propositionWithoutTime.getDatePeremption()

@@ -43,7 +43,6 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
         // Association demands
         case ACLMessage.CFP:
           ACLMessage offer = getRespondMessage(aclMessage);
-          logger.info("Sending offer" + offer.getPerformative());
           myAgent.send(offer);
           break;
 
@@ -173,7 +172,7 @@ public class ResponderBehaviourProduction extends CyclicBehaviour {
     getDataStore()
         .put(demand.getConversationId() + ":productionPrevue", request.getNb() - availableUnits);
 
-    logger.info("Sending proposition (prix : " + propositionWithTime.getPrix()
+    logger.info("Sending proposition - " + myAgent.getName() + "(prix : " + propositionWithTime.getPrix()
         + ", quantity : " + propositionWithTime.getNombre()
         + ", delivery : " + propositionWithTime.getDateLivraison()
         + ", peremption : " + propositionWithTime.getDatePeremption()
