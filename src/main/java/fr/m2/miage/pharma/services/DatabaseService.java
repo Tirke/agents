@@ -98,6 +98,51 @@ public class DatabaseService {
     return listeLot;
   }
 
+  public static void addStockToRandomMaladie(int minStockTrigger, String agentName) {
+    Session session = getSessionFactory().openSession();
+
+    List<Maladie> maladies = session
+        .createNamedQuery("getAllMaladie", Maladie.class)
+        .getResultList();
+
+    // Choose one random maladie
+    Random randomizer = new Random();
+    Maladie maladie = maladies.get(randomizer.nextInt(maladies.size()));
+
+    // Get current stock
+    Long getResult = session
+        .createNamedQuery("getStockNoDate", Long.class)
+        .setParameter("maladieName", maladie.getNom())
+        .setParameter("agentName", agentName.split("-")[0])
+        .getSingleResult();
+
+    Integer stock = (getResult == null) ? 0 : Math.toIntExact(getResult);
+
+    if (stock <= minStockTrigger) {
+      // On met au hasard le nombre de vaccin à créer (entre 50 et 100)
+      int stockToSet = randomizer.nextInt(50) + 50;
+
+      // On calcule les date (fabrication et péremption)
+      Date fabrication = new Date(
+          Instant.now().toEpochMilli() + maladie.getProductionTime() * stockToSet);
+      Date permeption = new Date(fabrication.getTime() + maladie.getDelaiPeremption());
+
+      // On crée et on ajoute le lot dans la base de données
+      Lot futureLot = new Lot();
+      futureLot.setAgentName(agentName.split("-")[0]);
+      futureLot.setStockActuel(stockToSet);
+      futureLot.setStockInitial(stockToSet);
+      futureLot.setMaladie(maladie);
+      futureLot.setDatePeremption(permeption);
+      futureLot.setDateFabrication(fabrication);
+      saveObjectInDB(futureLot);
+      logger.info(agentName + " : Création de " +
+          stockToSet + " vaccins pour " +
+          maladie.getNom());
+    }
+    session.close();
+  }
+
   public static void saveCollectionInDB(Collection collection) {
     Session session = getSessionFactory().openSession();
     session.beginTransaction();
@@ -109,51 +154,6 @@ public class DatabaseService {
     session.getTransaction().commit();
     session.close();
   }
-
-
-  public static void addStockToRandomMaladie(int minStockTrigger, String agentName) {
-    Session session = getSessionFactory().openSession();
-
-    List<Maladie> maladies = session
-        .createNamedQuery("getAllMaladie", Maladie.class)
-        .getResultList();
-
-    Random randomizer = new Random();
-    Maladie maladie = maladies.get(randomizer.nextInt(maladies.size()));
-
-    Long getResult = session
-        .createNamedQuery("getStockNoDate", Long.class)
-        .setParameter("maladieName", maladie.getNom())
-        .setParameter("agentName", agentName.split("-")[0])
-        .getSingleResult();
-
-    Integer stock = (getResult == null) ? 0 : Math.toIntExact(getResult);
-
-    if (stock <= minStockTrigger) {
-      // On met au hasard le nombre de vaccin à créer
-      int stockToSet = randomizer.nextInt(50) + 50;
-
-      Date fabrication = new Date(
-          Instant.now().toEpochMilli() + maladie.getProductionTime() * stockToSet);
-      Date permeption = new Date(fabrication.getTime() + maladie.getDelaiPeremption());
-
-      session.beginTransaction();
-      Lot futureLot = new Lot();
-      futureLot.setAgentName(agentName.split("-")[0]);
-      futureLot.setStockActuel(stockToSet);
-      futureLot.setStockInitial(stockToSet);
-      futureLot.setMaladie(maladie);
-      futureLot.setDatePeremption(permeption);
-      futureLot.setDateFabrication(fabrication);
-      session.save(futureLot);
-      session.getTransaction().commit();
-      logger.info(agentName + " : Création de " +
-          stockToSet + " vaccins pour " +
-          maladie.getNom());
-    }
-    session.close();
-  }
-
 
   public static void saveObjectInDB(Object o) {
     Session session = getSessionFactory().openSession();
